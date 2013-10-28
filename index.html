@@ -249,12 +249,12 @@ public class TechDayConfig {
 <section>
  <h2>How does it work?</h2>
   <ul style="margin-top:100px">
-   <li class="fragment">lade Properties</li>
-   <li class="fragment">verarbeite Command Line Options</li>
-   <li class="fragment">finde passenden Konstruktor</li>
-   <li class="fragment">instantiiere Config-Objekt</li>
-   <li class="fragment">setze Felder</li>
-   <li class="fragment">validiere</li>
+   <li class="fragment">load properties</li>
+   <li class="fragment">parse command line options</li>
+   <li class="fragment">find a suitable constructor</li>
+   <li class="fragment">instantiate config object</li>
+   <li class="fragment">set fields</li>
+   <li class="fragment">validate</li>
  </ul>
 </section>
 <section>
@@ -645,7 +645,7 @@ method.invoke(null);
         controls: false,
         progress: false,
         history: true,
-        center: false,
+        center: true,
 
         theme: 'sky', // available themes are in /css/theme
         transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
