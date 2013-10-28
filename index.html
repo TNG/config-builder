@@ -16,6 +16,7 @@
    
     <link rel="stylesheet" href="css/reveal.min.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css" id="theme">
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -34,7 +35,7 @@
     <div class="slides">
  <section>
   <p style="margin-top: 250px;">
-   <h1>Java Config-Builder</h1>
+   <h1>Config-Builder</h1>
   </p>
 </section>
 <section>
@@ -74,8 +75,8 @@
 
     <table id="table1" border="0" style="font-size: 40px; width:100%;">
         <tr>
-            <th id="head1" style="opacity: 0; text-align:center">Converter 1</th>
-            <th id="head2" style="opacity: 0; text-align:center">Converter 2</th>
+            <th id="head1" style="opacity: 0; text-align:center">DBConverter</th>
+            <th id="head2" style="opacity: 0; text-align:center">RuleConverter</th>
         </tr>
 </table>
 <table id="table2" border="0" style="font-size: 32px; width:100%; margin-top:50px">
@@ -157,61 +158,67 @@ private String userName;
 
 <section>
  <section>
-  <h2 style="margin-top: 280px;">Klingt ja toll, aber was muss ich tun?</h2>
+  <h2 style="margin-top: 280px;">Klingt ja toll,<br> aber was muss ich dafür tun?</h2>
  </section>
  <section>
   <h3>1. Klasse erstellen</h3>
   <pre><code class="java" data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-public class MyConfig {
-
-    private boolean runInTestMode;
-    private int runLevel;
-    private String path;
+public class TechDayConfig {
+    
+    private boolean isOpenTechDay;
+    private int numberOfSteaks;
+    private String location;
     private String userName;
-    private Collection&lt;PidFix&gt; pidFixCollection
-    private PidFix pidFix
-    ...
+    private Barbecue barbecue;
+    private Collection&lt;String&gt; people;
+    private Collection&lt;Steak&gt; steaks;
 }
   </code></pre>
  </section>
  <section>
   <h3>2. Annotieren</h3>
   <pre><code class="java" data-trim contenteditable style="font-size: 17px; margin-top: 20px; max-height:600px">
-public class BarbecueConfig {
+@PropertiesFiles("techday")
+public class TechDayConfig {
+
+    ...
+
     @DefaultValue("false")
-    @CommandLineValue(shortOpt="t", longOpt="test", hasArg="false")
-    private boolean runInTestMode;
+    @CommandLineValue(shortOpt="t", longOpt="test", hasArg=false)
+    private boolean isOpenTechDay;
 
     @DefaultValue("3")
-    @CommandLineValue(shortOpt="rl", longOpt="runLevel", hasArg="true")
-    private int steaksPerHour;
+    @CommandLineValue(shortOpt="n", longOpt="steaks", hasArg=true)
+    private int numberOfSteaks;
 
-    @EnvironmentVariableValue("PATH")
-    @PropertyValue("path")
-    private String path;
+    @EnvironmentVariableValue("HOME")
+    @PropertyValue("location")
+    private String location;
 
     @SystemPropertyValue("user.name")
     private String userName;
 
-    @Collection
-    @ValueProvider(PidFixFactory.class)
-    @CommandLineValue(shortOpt="pc", longOpt="pidFixCollection", hasArg="true")
-    private Collection&lt;PidFix&gt pidFixCollection
+    @ValueTransformer(BarbecueFactory.class)
+    @PropertyValue("barbecue")
+    private Barbecue barbecue;
 
-    @ValueProvider(PidFixFactory.class)
-    @CommandLineValue(shortOpt="p", longOpt="pidFix", hasArg="true")
-    private PidFix pidFix
-    ...
+    @CollectionType
+    @PropertyValue("people")
+    private Collection&lt;String&gt; people;
+
+    @CollectionType
+    @ValueTransformer(Steak.class)
+    @PropertyValue("steaks")
+    private Collection&lt;Steak&gt; steaks;
 }
   </code></pre>
  </section>
  <section>
   <h3>3. Optional: Property-Loader Konfigurieren</h3>
   <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-@PropertiesFiles("config")
 @PropertyLocations(directories = {"/home/user"}, contextClassLoader = true)
 @PropertySuffixes(extraSuffixes = {"tngtech","myname"}, hostNames = true)
-public class MyConfig {
+public class TechDayConfig {
 }
   </code></pre>
  </section>
@@ -229,11 +236,11 @@ private void validate() {
   </code></pre>
  </section>
  <section>
-  <h3>5. Optional: Konstruktor</h3>
+  <h3>5. Optional: Nicht-Default-Konstruktor</h3>
   <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-public class MyConfig {
-    public MyConfig(ConverterMode mode) {
-        this.converterMode = mode;
+public class TechDayConfig {
+    public MyConfig(Barbecue barbecue) {
+        this.barbecue = barbecue;
     }
 }
   </code></pre>
@@ -255,6 +262,7 @@ public class MyConfig {
   <ul style="margin-top:100px">
    <li class="fragment">Property-Loader</li>
    <li class="fragment">Apache CLI</li>
+   <li class="fragment">Log4j</li>
    <li class="fragment">JSR303</li>
    <li class="fragment">Google Guava</li>
  </ul>
@@ -296,25 +304,35 @@ public class MyConfig {
    <li class="fragment" data-fragment-index="11">Postprocessing</li>
   </ul>
 
- <div class="fragment fade-in" data-fragment-index="12"><pre class="fragment fade-out" data-fragment-index="13"><code class="java" style="position:absolute; font-size: 18px; margin-top: 300px; width:100%;">
-{$nested{$variable}}
+ <div class="fragment fade-in" data-fragment-index="12"><pre class="fragment fade-out" data-fragment-index="13"><code class="java" style="position:absolute; font-size: 18px; margin-top: 250px; width:100%;">
+key = {$nested{$variable}}
+variable = test
+nestedtest = value
  </pre></code></div>
- <div class="fragment fade-in" data-fragment-index="13"><pre  class="fragment fade-out" data-fragment-index="14"><code class="java" style="position:absolute; font-size: 18px; margin-top: 300px; width:100%;">
-...
+ <div class="fragment fade-in" data-fragment-index="13"><pre  class="fragment fade-out" data-fragment-index="14"><code class="java" style="position:absolute; font-size: 18px; margin-top: 250px; width:100%;">
+key = $PATH
  </pre></code></div>
- <div class="fragment fade-in" data-fragment-index="14"><pre class="fragment fade-out" data-fragment-index="15"><code class="java" style="position:absolute; font-size: 18px; margin-top: 300px; width:100%;">
+ <div class="fragment fade-in" data-fragment-index="14"><pre class="fragment fade-out" data-fragment-index="15"><code class="java" style="position:absolute; font-size: 18px; margin-top: 250px; width:100%;">
 %include=file1,file2,file3
  </pre></code></div>
- <div class="fragment fade-in" data-fragment-index="15"><pre class="fragment fade-out" data-fragment-index="16"><code class="java" style="position:absolute; font-size: 18px; margin-top: 300px; width:100%;">
+ <div class="fragment fade-in" data-fragment-index="15"><pre class="fragment fade-out" data-fragment-index="16"><code class="java" style="position:absolute; font-size: 18px; margin-top: 250px; width:100%;">
 key = DECRYPT:value
  </pre></code></div>
 
  </section>
  <section>
-  <h3 style="margin-top: 280px;">Nutzung</h3>
+  <h3 style="margin-top: 280px;">Wie wird das alles konfiguriert?</h3>
  </section>
  <section>
   <h3>Such-Orte</h3>
+
+  <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:140px; margin-left: -450px;">
+   <ul class="fragment fade-out" data-fragment-index="5"> 
+    <li class="fragment fade-in" data-fragment-index="2">Klassenpfad des Thread</li>
+    <li class="fragment fade-in" data-fragment-index="3">Home-Verzeichnis</li>
+    <li class="fragment fade-in" data-fragment-index="4">Aktuelles Verzeichnis</li>
+   </ul>
+  </ul>
 
   <ul style="margin-top:100px; width:100%;">
    <li class="fragment" data-fragment-index="1">Standard-Suchorte</li>
@@ -340,12 +358,20 @@ propertyLoader.atContextClassPath()
 propertyLoader.atClassLoader(ClassLoader classLoader)
  </pre></code></div>
  <div class="fragment fade-in" data-fragment-index="9"><pre><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
-propertyLoader.atRelativeToClass(Class<?> clazz) 
+propertyLoader.atRelativeToClass(Class&lt;?&gt; clazz) 
  </pre></code></div>
 
  </section>
  <section>
   <h3>Suffixes</h3>
+
+  <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:140px; margin-left: -450px;">
+   <ul class="fragment fade-out" data-fragment-index="5"> 
+    <li class="fragment fade-in" data-fragment-index="2">Local Hostnames</li>
+    <li class="fragment fade-in" data-fragment-index="3">Benutzername</li>
+    <li class="fragment fade-in" data-fragment-index="4">'override'</li>
+   </ul>
+  </ul>
 
   <ul style="margin-top:100px; width:100%;">
    <li class="fragment" data-fragment-index="1">Standard-Suffixes</li>
@@ -365,7 +391,7 @@ propertyLoader.addUserName()
  </pre></code></div>
  <div class="fragment fade-in" data-fragment-index="8"><pre><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
 propertyLoader.addSuffix(String directory)
-propertyLoader.addSuffixList(List<String> suffixes)
+propertyLoader.addSuffixList(List&lt;String&gt; suffixes)
  </pre></code></div>
 
  </section>
@@ -373,16 +399,31 @@ propertyLoader.addSuffixList(List<String> suffixes)
 
   <h3>Postprocessing</h3>
 
+  <ul style="margin-top:100px; width:100%;">
+   <li class="fragment" data-fragment-index="1">Standard-Filter: Alle</li>
+   <li class="fragment" data-fragment-index="6">Variablen-Resolving</li>
+   <li class="fragment" data-fragment-index="7">Umgebungsvariablen</li>
+   <li class="fragment" data-fragment-index="8">Decryption</li>
+   <li class="fragment" data-fragment-index="9">Warnungen</li>
+ </ul>
 
-
-  <pre><code class="java" style="font-size: 18px; margin-top: 20px;">
+ <div class="fragment fade-in" data-fragment-index="1"><pre class="fragment fade-out" data-fragment-index="6"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
 propertyLoader.withDefaultFilters() 
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="6"><pre class="fragment fade-out" data-fragment-index="7"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
 propertyLoader.withVariableResolvingFilter() 
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="7"><pre class="fragment fade-out" data-fragment-index="8"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
 propertyLoader.withEnvironmentResolvingFilter() 
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="8"><pre class="fragment fade-out" data-fragment-index="9"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
 propertyLoader.withDecryptingFilter()
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="9"><pre><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
 propertyLoader.withWarnIfPropertyHasToBeDefined() 
 propertyLoader.withWarnOnSurroundingWhitespace() 
-  </pre></code>
+ </pre></code></div>
+
  </section>
 </section>
 <section>
@@ -395,9 +436,6 @@ propertyLoader.withWarnOnSurroundingWhitespace()
 <section>
  <section>
   <h2>Annotations</h2>
- </section>
- <section>
-  <h3>Beispiel</h3>
   <pre><code class="java" style="font-size: 18px; margin-top: 20px;">
 @ValueExtractorAnnotation(CommandLineValueProcessor.class)
 @Target(ElementType.FIELD)
@@ -412,49 +450,143 @@ public @interface CommandLineValue {
   </pre></code>
  </section>
  <section>
-  <h3>Probleme</h3>
-  <ul style="margin-top:100px">
-   <li class="fragment">keine Implementierung von Methoden-Rümpfen</li>
-   <li class="fragment">keine Vererbung</li>
-   <li class="fragment">beschränkte Auswahl an Typen: ...</li>
-  </ul>
- </section>
- <section>
-  <h3>Lösung</h3>
-  <ul style="margin-top:100px">
-   <li class="fragment">...</li>
-   <li class="fragment">...</li>
-   <li class="fragment">...</li>
-  </ul>
- </section>
+  <h3>Einschränkungen und Lösungen</h3>
+
+<table id="table2" border="0" style="font-size: 32px; width:100%; margin-top:50px">
+
+        <tr>
+    <td class="fragment">keine Vererbung</td>
+    <td class="fragment">Annotations wieder annotieren</td>
+  </tr>
+        <tr>
+            <td class="fragment">keine Implementierung von<br> Methoden-Rümpfen</td>
+            <td class="fragment">AnnotationProcessor-Klassen</td>
+        </tr>
+  <tr>
+    <td class="fragment">beschränkte Auswahl an "Anhängen":<br>Primitive Typen, Strings, Klassen, Annotations und Arrays daraus </td>
+    <td class="fragment">-</td>
+  </tr>
+  <tr>
+    <td class="fragment">nur Konstanten als "Anhänge"</td>
+    <td class="fragment">?</td>
+  </tr>
+
+</table>
+</section>
+<section>
+<h3>Lösung: Beispiel</h3>
+  <pre><code class="java" style="font-size: 13px; line-height:30px; margin-top: 20px; width:100%;">
+Class&lt;? extends IValueExtractorProcessor&gt; processor;
+for (Annotation annotation :  ) {
+    processor = annotation.annotationType().getAnnotation(ValueExtractorAnnotation.class).value();
+    value = configBuilderFactory.getInstance(processor).getValue(annotation, builderConfiguration);
+    if (value != null) {
+        break;
+    }
+}
+  </pre></code>
+</section>
 </section>
 <section>
  <section>
   <h2>Reflections</h2>
-   25.2 Metadaten der Klassen mit dem Class-Objekt
- 	 	Pfeil	25.2.1 An ein Class-Objekt kommen
- 	 	Pfeil	25.2.2 Was das Class-Objekt beschreibt *
- 	 	Pfeil	25.2.3 Der Name der Klasse
- 	 	Pfeil	25.2.4 »instanceof« mit Class-Objekten *
- 	 	Pfeil	25.2.5 Oberklassen finden *
- 	 	Pfeil	25.2.6 Implementierte Interfaces einer Klasse oder eines Interfaces *
- 	 	Pfeil	25.2.7 Modifizierer und die Klasse »Modifier« *
- 	 	Pfeil	25.2.8 Die Arbeit auf dem Feld *
- 	Pfeil	25.3 Attribute, Methoden und Konstruktoren
- 	 	Pfeil	25.3.1 Reflections – Gespür für Attribute einer Klasse
- 	 	Pfeil	25.3.2 Methoden einer Klasse erfragen
- 	 	Pfeil	25.3.3 Properties einer Bean erfragen
- 	 	Pfeil	25.3.4 Konstruktoren einer Klasse
- 	 	Pfeil	25.3.5 Annotationen
- 	Pfeil	25.4 Objekte erzeugen und manipulieren
- 	 	Pfeil	25.4.1 Objekte erzeugen
- 	 	Pfeil	25.4.2 Die Belegung der Variablen erfragen
- 	 	Pfeil	25.4.3 Eine generische eigene toString()-Methode *
- 	 	Pfeil	25.4.4 Variablen setzen
- 	 	Pfeil	25.4.5 Bean-Zustände kopieren *
- 	 	Pfeil	25.4.6 Private Attribute ändern
- 	Pfeil	25.5 Methoden aufrufen
- 	 	Pfeil	25.5.1 Statische Methoden aufrufen
+
+
+
+  <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:180px; margin-left: -450px;">
+   <ul class="fragment fade-out" data-fragment-index="6"> 
+    <li class="fragment" data-fragment-index="2">Felder einer Klasse erfragen</li>
+    <li class="fragment" data-fragment-index="3">Methoden und Konstruktoren einer Klasse erfragen</li>
+    <li class="fragment" data-fragment-index="4">Annotationen erfragen</li>
+  </ul>
+ </ul>
+
+  <ul class="fragment fade-in" data-fragment-index="7" style="position:absolute; margin-top:240px; margin-left: -450px;">
+   <ul class="fragment fade-out" data-fragment-index="11"> 
+   <li class="fragment" data-fragment-index="7">Objekte erzeugen</li>
+   <li class="fragment" data-fragment-index="8">Die Belegung der Variablen erfragen</li>
+   <li class="fragment" data-fragment-index="9">Variablen setzen</li>
+   <li class="fragment" data-fragment-index="10">Private Attribute ändern</li>
+  </ul>
+ </ul>
+  <ul style="margin-top:100px; width:100%;">
+   <li class="fragment" data-fragment-index="1">Abfragen von Eigenschaften von Objekten, Klassen, Feldern, Methoden etc. zur Laufzeit</li>
+   <li class="fragment" data-fragment-index="6">Objekte erzeugen und manipulieren</li>
+   <li class="fragment" data-fragment-index="11">Methoden aufrufen</li>
+ </ul>
+
+ <div class="fragment fade-in" data-fragment-index="2"><pre class="fragment fade-out" data-fragment-index="3"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+Class&lt;?&gt; clazz = obj.getClass();
+
+Field[] publicFields = clazz.getFields();
+Field[] allFields = clazz.getDeclaredFields();
+
+Field userNameField = clazz.getField("userName");
+</pre></code></div>
+<div class="fragment fade-in" data-fragment-index="2"><pre class="fragment fade-out" data-fragment-index="3"><code class="java" style="position:absolute; font-size: 18px; width:100%;">
+final class java.lang.reflect.Field
+extends AccessibleObject
+implements Member
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="3"><pre class="fragment fade-out" data-fragment-index="4"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+Class&lt;?&gt; clazz = ...
+
+Method[] publicMethods = clazz.getMethods();
+Method[] allMethods = clazz.getDeclaredMethods();
+
+Method getValue = clazz.getMethods("getValue", Class[] args);
+
+Constructor[] constructors = clazz.getConstructors();
+Constructor&lt;T&gt; getConstructor(Class... parameterTypes)throws NoSuchMethodException
+</pre></code></div>
+<div class="fragment fade-in" data-fragment-index="3"><pre class="fragment fade-out" data-fragment-index="4"><code class="java" style="position:absolute; font-size: 18px; width:100%;">
+final class java.lang.reflect.Method
+extends AccessibleObject
+implements GenericDeclaration, Member
+</pre></code></div>
+<div class="fragment fade-in" data-fragment-index="3"><pre class="fragment fade-out" data-fragment-index="4"><code class="java" style="position:absolute; font-size: 18px; width:100%;">
+final class java.lang.reflect.Constructor&lt;T&gt;
+extends AccessibleObject
+implements GenericDeclaration, Member
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="4"><pre class="fragment fade-out" data-fragment-index="5"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+Annotation[] annotations = clazz.getAnnotations()
+Annotation[] annotations = clazz.getDeclaredAnnotations()
+Annotation[] annotations = field.getDeclaredAnnotations()
+Annotation[] annotations = method.getDeclaredAnnotations()
+Annotation[] annotations = annotation.getDeclaredAnnotations()
+
+Annotation annotation = clazz.getAnnotation(PropertyValue.class)
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="7"><pre class="fragment fade-out" data-fragment-index="8"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+Object newObj = clazz.newInstance();
+Object newObj = constructor.newInstance(args);
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="8"><pre class="fragment fade-out" data-fragment-index="9"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+Object newObj = field.get();
+String fieldName = field.getName();
+Object fieldType = field.getType();
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="9"><pre class="fragment fade-out" data-fragment-index="10"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+field.set(Object o);
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="10"><pre class="fragment fade-out" data-fragment-index="11"><code class="java" style="position:absolute; font-size: 18px; margin-top: 140px; width:100%;">
+private ...
+
+field.setAccessible(true);
+method.setAccessible(true);
+ </pre></code></div>
+ <div class="fragment fade-in" data-fragment-index="11"><pre><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
+Method method = o.getClass().getDeclaredMethod("methodName");
+Method method = o.getClass().getDeclaredMethod("methodName", Object[] args);
+
+method.setAccessible(true);
+
+method.invoke(Object o);
+method.invoke(Object o, Object[] args);
+method.invoke(null);
+ </pre></code></div>
+
  </section>
 </section>
 <section>
@@ -472,6 +604,9 @@ public @interface CommandLineValue {
     &lt;artifactId&gt;property-loader&lt;/artifactId&gt;
     &lt;version&gt;1.1&lt;/version&gt;<br>
 &lt;/dependency&gt;</pre></code>
+</section>
+<section>
+<h3>Danke und viel Spaß mit dem Config-Builder!</h3>
 </section>
 
 
