@@ -116,25 +116,25 @@
 
  <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-left:-450px; margin-top:150px; width:100%;">
   <ul class="fragment fade-out" data-fragment-index="6"> 
-   <li class="fragment fade-in" data-fragment-index="2">Properties-Dateien</li>
-   <li class="fragment fade-in" data-fragment-index="3">System Properties</li>
-   <li class="fragment fade-in" data-fragment-index="4">Umgebungsvariablen</li>
-   <li class="fragment fade-in" data-fragment-index="5">Kommandozeile</li>
+   <li class="fragment fade-in" data-fragment-index="2">key-value files</li>
+   <li class="fragment fade-in" data-fragment-index="3">system properties</li>
+   <li class="fragment fade-in" data-fragment-index="4">environment variables</li>
+   <li class="fragment fade-in" data-fragment-index="5">command line</li>
   </ul>
  </ul>
  <ul class="fragment fade-in" data-fragment-index="14" style="position:absolute; margin-left:-450px; margin-top:190px;">
   <ul class="fragment fade-out" data-fragment-index="17"> 
-   <li class="fragment fade-in" data-fragment-index="14">primitive Typen</li>
-   <li class="fragment fade-in" data-fragment-index="15">beliebige Objekte</li>
-   <li class="fragment fade-in" data-fragment-index="16">Collections</li>
+   <li class="fragment fade-in" data-fragment-index="14">primitive types</li>
+   <li class="fragment fade-in" data-fragment-index="15">arbitrary objects</li>
+   <li class="fragment fade-in" data-fragment-index="16">collections</li>
   </ul>
  </ul>
 
   <ul style="margin-top:100px; width:100%;">
-   <li class="fragment" data-fragment-index="1">Laden von Werten aus verschiedenen Quellen</li>
-   <li class="fragment" data-fragment-index="6">"Umwandlung" geladener String-Werte</li>
-   <li class="fragment" data-fragment-index="17">"Bauen" vollständig konfigurierter Instanzen</li>
-   <li class="fragment" data-fragment-index="18">Vervollständigen bestehender Instanzen</li>
+   <li class="fragment" data-fragment-index="1">loading of values from various sources</li>
+   <li class="fragment" data-fragment-index="6">"casting" of string values</li>
+   <li class="fragment" data-fragment-index="17">"building" fully configured instances</li>
+   <li class="fragment" data-fragment-index="18">completion of/merging with existing instances</li>
  </ul>
 
  <div class="fragment fade-in" data-fragment-index="2"><pre class="fragment fade-out" data-fragment-index="3"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
@@ -158,10 +158,10 @@ private String userName;
 
 <section>
  <section>
-  <h2 style="margin-top: 280px;">Klingt ja toll,<br> aber was muss ich dafür tun?</h2>
+  <h2 style="margin-top: 280px;">Sounds nice,<br> but does it take?</h2>
  </section>
  <section>
-  <h3>1. Klasse erstellen</h3>
+  <h3>1. Create your class</h3>
   <pre><code class="java" data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 public class TechDayConfig {
     
@@ -176,7 +176,7 @@ public class TechDayConfig {
   </code></pre>
  </section>
  <section>
-  <h3>2. Annotieren</h3>
+  <h3>2. Annotate your class</h3>
   <pre><code class="java" data-trim contenteditable style="font-size: 17px; margin-top: 20px; max-height:600px">
 @PropertiesFiles("techday")
 public class TechDayConfig {
@@ -214,7 +214,7 @@ public class TechDayConfig {
   </code></pre>
  </section>
  <section>
-  <h3>3. Optional: Property-Loader Konfigurieren</h3>
+  <h3>3. Optional: Configure the Property-Loader</h3>
   <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 @PropertyLocations(directories = {"/home/user"}, contextClassLoader = true)
 @PropertySuffixes(extraSuffixes = {"tngtech","myname"}, hostNames = true)
@@ -223,7 +223,7 @@ public class TechDayConfig {
   </code></pre>
  </section>
  <section>
-  <h3>4. Optional: Validierung</h3>
+  <h3>4. Optional: Validation</h3>
   <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 @NotEmpty("username.notEmpty")
 private String userName;
@@ -236,7 +236,7 @@ private void validate() {
   </code></pre>
  </section>
  <section>
-  <h3>5. Optional: Nicht-Default-Konstruktor</h3>
+  <h3>5. Optional: Non-Default-Constructor</h3>
   <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 public class TechDayConfig {
     public MyConfig(Barbecue barbecue) {
@@ -247,7 +247,7 @@ public class TechDayConfig {
  </section>
 </section>
 <section>
- <h2>Funktionsweise</h2>
+ <h2>How does it work?</h2>
   <ul style="margin-top:100px">
    <li class="fragment">lade Properties</li>
    <li class="fragment">verarbeite Command Line Options</li>
@@ -258,7 +258,7 @@ public class TechDayConfig {
  </ul>
 </section>
 <section>
- <h2>Kleiner Footprint</h2>
+ <h2>Small Footprint</h2>
   <ul style="margin-top:100px">
    <li class="fragment">Property-Loader</li>
    <li class="fragment">Apache CLI</li>
@@ -269,39 +269,39 @@ public class TechDayConfig {
 </section>
 <section>
  <section>
-  <h2>Der Property-Loader</h2>
+  <h2>The Property-Loader</h2>
  </section>
  <section>
   <h3>Features</h3>
 
   <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:200px; margin-left: -450px;">
    <ul class="fragment fade-out" data-fragment-index="6"> 
-    <li class="fragment fade-in" data-fragment-index="2">Pfade und URLs</li>
-    <li class="fragment fade-in" data-fragment-index="3">Klassenpfad</li>
-    <li class="fragment fade-in" data-fragment-index="4">relativ zu Klasse</li>
+    <li class="fragment fade-in" data-fragment-index="2">paths and URLs</li>
+    <li class="fragment fade-in" data-fragment-index="3">classpath</li>
+    <li class="fragment fade-in" data-fragment-index="4">relative to a class</li>
     <li class="fragment fade-in" data-fragment-index="5">ClassLoader</li>
    </ul>
   </ul>
   <ul class="fragment fade-in" data-fragment-index="8" style="position:absolute; margin-top:240px; margin-left: -450px;">
    <ul class="fragment fade-out" data-fragment-index="11"> 
-    <li class="fragment fade-in" data-fragment-index="8">Local Hostames</li>
-    <li class="fragment fade-in" data-fragment-index="9">Benutzername</li>
-    <li class="fragment fade-in" data-fragment-index="10">eigene Suffixes</li>
+    <li class="fragment fade-in" data-fragment-index="8">local hostames</li>
+    <li class="fragment fade-in" data-fragment-index="9">username</li>
+    <li class="fragment fade-in" data-fragment-index="10">custom Suffixes</li>
    </ul>
   </ul>
   <ul class="fragment fade-in" data-fragment-index="12" style="position:absolute; margin-top:280px; margin-left: -450px;">
    <ul> 
-    <li class="fragment fade-in" data-fragment-index="12">Variablen-Auflösung</li>
-    <li class="fragment fade-in" data-fragment-index="13">Umgebungsvariablen</li>
-    <li class="fragment fade-in" data-fragment-index="14">System Properties</li>
-    <li class="fragment fade-in" data-fragment-index="15">Includes</li>
-    <li class="fragment fade-in" data-fragment-index="16">Encryption/Decryption</li>
+    <li class="fragment fade-in" data-fragment-index="12">resolving of variables</li>
+    <li class="fragment fade-in" data-fragment-index="13">environment variables</li>
+    <li class="fragment fade-in" data-fragment-index="14">system properties</li>
+    <li class="fragment fade-in" data-fragment-index="15">file includes</li>
+    <li class="fragment fade-in" data-fragment-index="16">encryption/decryption</li>
    </ul>
   </ul>
   <ul style="margin-top:100px">
-   <li class="fragment" data-fragment-index="1">Hierarchisches Finden und Laden von Key-Value Dateien (Properties/XML)</li>
-   <li class="fragment" data-fragment-index="7">Suffixes</li>
-   <li class="fragment" data-fragment-index="11">Postprocessing</li>
+   <li class="fragment" data-fragment-index="1">hierarchial finding and loading of key-value files (properties/XML)</li>
+   <li class="fragment" data-fragment-index="7">suffixes</li>
+   <li class="fragment" data-fragment-index="11">postprocessing</li>
   </ul>
 
  <div class="fragment fade-in" data-fragment-index="12"><pre class="fragment fade-out" data-fragment-index="13"><code class="java" style="position:absolute; font-size: 18px; margin-top: 250px; width:100%;">
@@ -321,25 +321,25 @@ key = DECRYPT:value
 
  </section>
  <section>
-  <h3 style="margin-top: 280px;">Wie wird das alles konfiguriert?</h3>
+  <h3 style="margin-top: 280px;">How do you configure all this?</h3>
  </section>
  <section>
-  <h3>Such-Orte</h3>
+  <h3>Search-Locations</h3>
 
   <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:140px; margin-left: -450px;">
    <ul class="fragment fade-out" data-fragment-index="5"> 
-    <li class="fragment fade-in" data-fragment-index="2">Klassenpfad des Thread</li>
-    <li class="fragment fade-in" data-fragment-index="3">Home-Verzeichnis</li>
-    <li class="fragment fade-in" data-fragment-index="4">Aktuelles Verzeichnis</li>
+    <li class="fragment fade-in" data-fragment-index="2">classpath of current thread</li>
+    <li class="fragment fade-in" data-fragment-index="3">home directory</li>
+    <li class="fragment fade-in" data-fragment-index="4">current directory</li>
    </ul>
   </ul>
 
   <ul style="margin-top:100px; width:100%;">
-   <li class="fragment" data-fragment-index="1">Standard-Suchorte</li>
-   <li class="fragment" data-fragment-index="6">Pfade und URLs</li>
-   <li class="fragment" data-fragment-index="7">Klassenpfad des Threads</li>
+   <li class="fragment" data-fragment-index="1">default search locations</li>
+   <li class="fragment" data-fragment-index="6">paths and URLs</li>
+   <li class="fragment" data-fragment-index="7">classpath of current thread</li>
    <li class="fragment" data-fragment-index="8">ClassLoader</li>
-   <li class="fragment" data-fragment-index="9">relativ zu Klasse</li>
+   <li class="fragment" data-fragment-index="9">relative to a class</li>
  </ul>
 
  <div class="fragment fade-in" data-fragment-index="1"><pre class="fragment fade-out" data-fragment-index="6"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
@@ -367,17 +367,17 @@ propertyLoader.atRelativeToClass(Class&lt;?&gt; clazz)
 
   <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:140px; margin-left: -450px;">
    <ul class="fragment fade-out" data-fragment-index="5"> 
-    <li class="fragment fade-in" data-fragment-index="2">Local Hostnames</li>
-    <li class="fragment fade-in" data-fragment-index="3">Benutzername</li>
+    <li class="fragment fade-in" data-fragment-index="2">local hostnames</li>
+    <li class="fragment fade-in" data-fragment-index="3">username</li>
     <li class="fragment fade-in" data-fragment-index="4">'override'</li>
    </ul>
   </ul>
 
   <ul style="margin-top:100px; width:100%;">
-   <li class="fragment" data-fragment-index="1">Standard-Suffixes</li>
-   <li class="fragment" data-fragment-index="6">Local Hostnames</li>
-   <li class="fragment" data-fragment-index="7">Benutzername</li>
-   <li class="fragment" data-fragment-index="8">eigene Suffixes</li>
+   <li class="fragment" data-fragment-index="1">default suffixes</li>
+   <li class="fragment" data-fragment-index="6">local hostnames</li>
+   <li class="fragment" data-fragment-index="7">username</li>
+   <li class="fragment" data-fragment-index="8">custom suffixes</li>
  </ul>
 
  <div class="fragment fade-in" data-fragment-index="1"><pre class="fragment fade-out" data-fragment-index="6"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
@@ -400,11 +400,11 @@ propertyLoader.addSuffixList(List&lt;String&gt; suffixes)
   <h3>Postprocessing</h3>
 
   <ul style="margin-top:100px; width:100%;">
-   <li class="fragment" data-fragment-index="1">Standard-Filter: Alle</li>
-   <li class="fragment" data-fragment-index="6">Variablen-Resolving</li>
-   <li class="fragment" data-fragment-index="7">Umgebungsvariablen</li>
-   <li class="fragment" data-fragment-index="8">Decryption</li>
-   <li class="fragment" data-fragment-index="9">Warnungen</li>
+   <li class="fragment" data-fragment-index="1">default filters: all available</li>
+   <li class="fragment" data-fragment-index="6">variable resolving</li>
+   <li class="fragment" data-fragment-index="7">environment variables</li>
+   <li class="fragment" data-fragment-index="8">decryption</li>
+   <li class="fragment" data-fragment-index="9">warnings</li>
  </ul>
 
  <div class="fragment fade-in" data-fragment-index="1"><pre class="fragment fade-out" data-fragment-index="6"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
@@ -427,7 +427,7 @@ propertyLoader.withWarnOnSurroundingWhitespace()
  </section>
 </section>
 <section>
- <h2>Java Magie</h2>
+ <h2>Java Magic</h2>
   <ul style="margin-top:100px">
    <li class="fragment">Annotations</li>
    <li class="fragment">Reflections</li>
@@ -450,31 +450,31 @@ public @interface CommandLineValue {
   </pre></code>
  </section>
  <section>
-  <h3>Einschränkungen und Lösungen</h3>
+  <h3>Limits And Solutions</h3>
 
 <table id="table2" border="0" style="font-size: 32px; width:100%; margin-top:50px">
 
         <tr>
-    <td class="fragment">keine Vererbung</td>
-    <td class="fragment">Annotations wieder annotieren</td>
+    <td class="fragment">no inheritance</td>
+    <td class="fragment">annotate annotations again</td>
   </tr>
         <tr>
-            <td class="fragment">keine Implementierung von<br> Methoden-Rümpfen</td>
-            <td class="fragment">AnnotationProcessor-Klassen</td>
+            <td class="fragment">no implementation of<br> method bodies</td>
+            <td class="fragment">AnnotationProcessor classes</td>
         </tr>
   <tr>
-    <td class="fragment">beschränkte Auswahl an "Anhängen":<br>Primitive Typen, Strings, Klassen, Annotations und Arrays daraus </td>
+    <td class="fragment">limited selection of "attachment" types:<br>primitives, strings, classes, annotations and arrays </td>
     <td class="fragment">-</td>
   </tr>
   <tr>
-    <td class="fragment">nur Konstanten als "Anhänge"</td>
+    <td class="fragment">only constant "attachments"</td>
     <td class="fragment">?</td>
   </tr>
 
 </table>
 </section>
 <section>
-<h3>Lösung: Beispiel</h3>
+<h3>Example Solution</h3>
   <pre><code class="java" style="font-size: 13px; line-height:30px; margin-top: 20px; width:100%;">
 Class&lt;? extends IValueExtractorProcessor&gt; processor;
 for (Annotation annotation :  ) {
@@ -495,24 +495,24 @@ for (Annotation annotation :  ) {
 
   <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:180px; margin-left: -450px;">
    <ul class="fragment fade-out" data-fragment-index="6"> 
-    <li class="fragment" data-fragment-index="2">Felder einer Klasse erfragen</li>
-    <li class="fragment" data-fragment-index="3">Methoden und Konstruktoren einer Klasse erfragen</li>
-    <li class="fragment" data-fragment-index="4">Annotationen erfragen</li>
+    <li class="fragment" data-fragment-index="2">retrieve fields of a class</li>
+    <li class="fragment" data-fragment-index="3">retrieve methods and constructors of a class</li>
+    <li class="fragment" data-fragment-index="4">retrieve annotations</li>
   </ul>
  </ul>
 
   <ul class="fragment fade-in" data-fragment-index="7" style="position:absolute; margin-top:240px; margin-left: -450px;">
    <ul class="fragment fade-out" data-fragment-index="11"> 
-   <li class="fragment" data-fragment-index="7">Objekte erzeugen</li>
-   <li class="fragment" data-fragment-index="8">Die Belegung der Variablen erfragen</li>
-   <li class="fragment" data-fragment-index="9">Variablen setzen</li>
-   <li class="fragment" data-fragment-index="10">Private Attribute ändern</li>
+   <li class="fragment" data-fragment-index="7">instantiate objects</li>
+   <li class="fragment" data-fragment-index="8">retrieve the value of variables</li>
+   <li class="fragment" data-fragment-index="9">set variables</li>
+   <li class="fragment" data-fragment-index="10">change private attributes</li>
   </ul>
  </ul>
   <ul style="margin-top:100px; width:100%;">
-   <li class="fragment" data-fragment-index="1">Abfragen von Eigenschaften von Objekten, Klassen, Feldern, Methoden etc. zur Laufzeit</li>
-   <li class="fragment" data-fragment-index="6">Objekte erzeugen und manipulieren</li>
-   <li class="fragment" data-fragment-index="11">Methoden aufrufen</li>
+   <li class="fragment" data-fragment-index="1">retrieve properties of objects, classes, fields and methods at runtime</li>
+   <li class="fragment" data-fragment-index="6">instantiate and manipulate objects</li>
+   <li class="fragment" data-fragment-index="11">call methods</li>
  </ul>
 
  <div class="fragment fade-in" data-fragment-index="2"><pre class="fragment fade-out" data-fragment-index="3"><code class="java" style="position:absolute; font-size: 18px; margin-top: 100px; width:100%;">
@@ -604,9 +604,6 @@ method.invoke(null);
     &lt;artifactId&gt;property-loader&lt;/artifactId&gt;
     &lt;version&gt;1.1&lt;/version&gt;<br>
 &lt;/dependency&gt;</pre></code>
-</section>
-<section>
-<h3>Danke und viel Spaß mit dem Config-Builder!</h3>
 </section>
 
 
