@@ -92,19 +92,6 @@ public class FieldSetterTest {
     }
 
     @Test
-    public void testSetEmptyFields() throws Exception {
-        when(fieldValueTransformer.transformedFieldValue(Matchers.any(Field.class), Matchers.any(BuilderConfiguration.class))).thenReturn("stringValue");
-
-        FieldSetter<TestConfig> fieldSetter = new FieldSetter<>(configBuilderFactory);
-        TestConfig testConfig = new TestConfig();
-
-        fieldSetter.setEmptyFields(testConfig, builderConfiguration);
-
-        assertEquals("defaultValue",testConfig.testString);
-        assertEquals("stringValue",testConfig.emptyTestString);
-    }
-
-    @Test
     public void testSetFieldsForFieldWithoutValueExtractorAnnotation() throws Exception {
         when(fieldValueTransformer.transformedFieldValue(Matchers.any(Field.class), Matchers.any(BuilderConfiguration.class))).thenReturn(null);
         when(annotationHelper.fieldHasAnnotationAnnotatedWith(Matchers.any(Field.class), Matchers.any(Class.class))).thenReturn(false);

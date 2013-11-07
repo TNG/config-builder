@@ -34,22 +34,6 @@ public class FieldSetter<T> {
         }
     }
 
-    public void setEmptyFields(T instanceOfConfigClass, BuilderConfiguration builderConfiguration) {
-        try {
-            for (Field field : instanceOfConfigClass.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-                if (annotationHelper.fieldHasAnnotationAnnotatedWith(field, ValueExtractorAnnotation.class) && (field.getType().isPrimitive() || field.get(instanceOfConfigClass) == null)) {
-                    Object value = fieldValueTransformer.transformedFieldValue(field, builderConfiguration);
-                    setField(instanceOfConfigClass, field, value);
-                } else {
-                    log.debug(String.format("skipping field %s", field.getName()));
-                }
-            }
-        } catch (IllegalAccessException e) {
-            throw new ConfigBuilderException("THIS CAN NOT HAPPEN", e);
-        }
-    }
-
     private void setField(T instanceOfConfigClass, Field field, Object value) {
         try {
             field.setAccessible(true);
