@@ -1,6 +1,6 @@
 package com.tngtech.configbuilder.annotation.valueextractor;
 
-import com.tngtech.configbuilder.configuration.BuilderConfiguration;
+import com.tngtech.configbuilder.util.ConfigBuilderFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ public class SystemPropertyProcessorTest {
     private SystemPropertyValue systemPropertyValue;
 
     @Mock
-    private BuilderConfiguration builderConfiguration;
+    private ConfigBuilderFactory configBuilderFactory;
 
     @Before
     public void setUp() throws Exception {
@@ -29,6 +29,6 @@ public class SystemPropertyProcessorTest {
 
     @Test
     public void testGetValue() throws Exception {
-        assertEquals(System.getProperty("user.language"), systemPropertyProcessor.getValue(systemPropertyValue, builderConfiguration));
+        assertEquals(System.getProperty("user.language"), systemPropertyProcessor.getValue(systemPropertyValue, configBuilderFactory).toString());
     }
 }

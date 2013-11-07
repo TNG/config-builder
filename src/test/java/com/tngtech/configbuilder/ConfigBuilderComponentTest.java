@@ -3,6 +3,7 @@ package com.tngtech.configbuilder;
 import com.tngtech.configbuilder.annotation.valueextractor.*;
 import com.tngtech.configbuilder.configuration.BuilderConfiguration;
 import com.tngtech.configbuilder.testclasses.TestConfig;
+import com.tngtech.configbuilder.util.ConfigBuilderFactory;
 import com.tngtech.propertyloader.PropertyLoader;
 import org.apache.commons.cli.*;
 import org.junit.Before;
@@ -24,6 +25,9 @@ public class ConfigBuilderComponentTest {
 
     @Mock
     private BuilderConfiguration builderConfiguration;
+    
+    @Mock
+    private ConfigBuilderFactory configBuilderFactory;
 
     @Mock
     private PropertyLoader propertyLoader;
@@ -49,7 +53,7 @@ public class ConfigBuilderComponentTest {
                 CommandLine commandLineArgs = parser.parse(options, args);
                 CommandLineValueProcessor commandLineValueProcessor = new CommandLineValueProcessor();
                 when(builderConfiguration.getCommandLine()).thenReturn(commandLineArgs);
-                String result = commandLineValueProcessor.getValue(commandLineValue, builderConfiguration);
+                String result = commandLineValueProcessor.getValue(commandLineValue, configBuilderFactory);
                 assertEquals("true", result);
 
             } catch (ParseException e) {
@@ -64,11 +68,16 @@ public class ConfigBuilderComponentTest {
     public void testThatPropertyValueHandlerLoadsStringFromAnnotation() {
         try {
             PropertyValue propertyValue = TestConfig.class.getDeclaredField("helloWorld").getAnnotation(PropertyValue.class);
+            
             Properties properties = new Properties();
-            PropertyValueProcessor propertyValueProcessor = new PropertyValueProcessor();
-            when(builderConfiguration.getProperties()).thenReturn(properties);
             properties.put("a", "HelloWorld");
-            String result = propertyValueProcessor.getValue(propertyValue, builderConfiguration);
+            
+            PropertyValueProcessor propertyValueProcessor = new PropertyValueProcessor();
+            
+            when(configBuilderFactory.getInstance(BuilderConfiguration.class)).thenReturn(builderConfiguration);
+            when(builderConfiguration.getProperties()).thenReturn(properties);
+            
+            String result = propertyValueProcessor.getValue(propertyValue, configBuilderFactory);
             assertEquals("HelloWorld", result);
         } catch (NoSuchFieldException e) {
         }
@@ -79,7 +88,7 @@ public class ConfigBuilderComponentTest {
         try {
             DefaultValue defaultValue = TestConfig.class.getDeclaredField("userName").getAnnotation(DefaultValue.class);
             DefaultValueProcessor defaultValueProcessor = new DefaultValueProcessor();
-            String result = defaultValueProcessor.getValue(defaultValue, builderConfiguration);
+            String result = defaultValueProcessor.getValue(defaultValue, configBuilderFactory);
             assertEquals("3", result);
         } catch (NoSuchFieldException e) {
         }

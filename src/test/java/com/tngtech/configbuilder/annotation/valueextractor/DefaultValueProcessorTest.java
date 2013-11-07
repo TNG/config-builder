@@ -1,6 +1,6 @@
 package com.tngtech.configbuilder.annotation.valueextractor;
 
-import com.tngtech.configbuilder.configuration.BuilderConfiguration;
+import com.tngtech.configbuilder.util.ConfigBuilderFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ public class DefaultValueProcessorTest {
     private DefaultValueProcessor defaultValueProcessor;
 
     @Mock
-    private BuilderConfiguration builderConfiguration;
+    private ConfigBuilderFactory configBuilderFactory;
     @Mock
     private DefaultValue defaultValue;
 
@@ -29,6 +29,6 @@ public class DefaultValueProcessorTest {
     public void testDefaultValueProcessor() {
 
         when(defaultValue.value()).thenReturn("value");
-        assertEquals("value", defaultValueProcessor.getValue(defaultValue, builderConfiguration));
+        assertEquals("value", defaultValueProcessor.getValue(defaultValue, configBuilderFactory).toString());
     }
 }

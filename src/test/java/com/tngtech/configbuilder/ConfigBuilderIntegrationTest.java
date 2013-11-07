@@ -58,38 +58,37 @@ public class ConfigBuilderIntegrationTest {
         TestConfigWithoutDefaultConstructor c = configBuilder.build(3);
         assertEquals(3, c.getNumber());
     }
-
+    
     @Test
-    public void testMerge() {
+    public void testImportWithLowPriority() {
         ArrayList<String> arrayList = Lists.newArrayList("collection", "two");
         String systemPath = System.getenv("PATH");
         String userLanguage = System.getProperty("user.language");
         
         TestConfig originalTestConfig = new TestConfig();
-        originalTestConfig.setHelloWorld("astringwithoutspaces");
-        originalTestConfig.setSomeNumber(3);
-        originalTestConfig.setBoolean(true);
-        originalTestConfig.setStringCollection(Lists.newArrayList("collection"));
+        originalTestConfig.setHelloWorld("Hello World!");
+        originalTestConfig.setStringCollection(Lists.newArrayList("collection", "one"));
         originalTestConfig.setEnvironmentVariable(systemPath);
-        originalTestConfig.setSystemProperty(userLanguage);
+        
 
         TestConfig overwritingTestConfig = new TestConfig();
-        overwritingTestConfig.setHelloWorld("Hello World!");
+        overwritingTestConfig.setHelloWorld("astringwithoutspaces");
+        overwritingTestConfig.setSomeNumber(3);
         overwritingTestConfig.setBoolean(false);
-        overwritingTestConfig.setStringCollection(arrayList);
+        overwritingTestConfig.setSystemProperty(userLanguage);
         
         TestConfig expectedTestConfig = new TestConfig();
-        expectedTestConfig.setHelloWorld("Hello World!");
+        expectedTestConfig.setHelloWorld("Hello, World!");
         expectedTestConfig.setSomeNumber(3);
-        expectedTestConfig.setBoolean(true); // primitives will not be overwritten
+        expectedTestConfig.setBoolean(true);
         expectedTestConfig.setStringCollection(arrayList);
         expectedTestConfig.setEnvironmentVariable(systemPath);
         expectedTestConfig.setSystemProperty(userLanguage);
         
 
         ConfigBuilder configBuilder = new ConfigBuilder(configClass);
-        String[] args = new String[]{"-u", "--collection", "PIDs fixed with"};
-        Object result = configBuilder.withCommandLineArgs(args).merge(overwritingTestConfig);
+        String[] args = new String[]{"-u", "--collection", "collection,two"};
+        Object result = configBuilder.withCommandLineArgs(args).withImportedConfiguration(overwritingTestConfig).build();
         assertReflectionEquals(expectedTestConfig, result);
     }
 }

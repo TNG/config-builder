@@ -1,6 +1,7 @@
 package com.tngtech.configbuilder.annotation.valueextractor;
 
 import com.tngtech.configbuilder.configuration.BuilderConfiguration;
+import com.tngtech.configbuilder.util.ConfigBuilderFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,9 @@ public class EnvironmentVariableProcessorTest {
 
     @Mock
     private BuilderConfiguration builderConfiguration;
-
+    @Mock
+    private ConfigBuilderFactory configBuilderFactory;
+    
     @Before
     public void setUp() throws Exception {
         environmentVariableProcessor = new EnvironmentVariableProcessor();
@@ -29,6 +32,6 @@ public class EnvironmentVariableProcessorTest {
 
     @Test
     public void testGetValue() throws Exception {
-        assertEquals(System.getenv("PATH"), environmentVariableProcessor.getValue(environmentVariableValue, builderConfiguration));
+        assertEquals(System.getenv("PATH"), environmentVariableProcessor.getValue(environmentVariableValue, configBuilderFactory));
     }
 }

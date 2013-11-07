@@ -1,6 +1,7 @@
 package com.tngtech.configbuilder.annotation.valueextractor;
 
 import com.tngtech.configbuilder.configuration.BuilderConfiguration;
+import com.tngtech.configbuilder.util.ConfigBuilderFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,8 @@ public class PropertyValueProcessorTest {
     @Mock
     private BuilderConfiguration builderConfiguration;
     @Mock
+    private ConfigBuilderFactory configBuilderFactory;
+    @Mock
     private Properties properties;
     @Mock
     PropertyValue propertyValue;
@@ -31,10 +34,10 @@ public class PropertyValueProcessorTest {
 
     @Test
     public void testPropertyValueProcessor() {
-
+        when(configBuilderFactory.getInstance(BuilderConfiguration.class)).thenReturn(builderConfiguration);
         when(builderConfiguration.getProperties()).thenReturn(properties);
         when(propertyValue.value()).thenReturn("test");
         when(properties.getProperty("test")).thenReturn("passed");
-        assertEquals("passed", propertyValueProcessor.getValue(propertyValue, builderConfiguration));
+        assertEquals("passed", propertyValueProcessor.getValue(propertyValue, configBuilderFactory));
     }
 }

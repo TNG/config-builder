@@ -90,6 +90,16 @@ public class ConfigBuilder<T> {
     }
 
     /**
+     * Imports the values from the given object according to the field names in the annotations
+     * @param importedConfiguration
+     * @return
+     */
+    public ConfigBuilder<T> withImportedConfiguration(Object importedConfiguration) {
+        builderConfiguration.setImportedConfiguration(importedConfiguration);
+        return this;
+    }
+
+    /**
      * Configures the Config Builder to load given properties files instead of those specified in the config class.
      *
      * @param baseNames
@@ -123,20 +133,6 @@ public class ConfigBuilder<T> {
         setupBuilderConfiguration(propertyLoader);
         T instanceOfConfigClass = constructionHelper.getInstance(configClass, objects);
         fieldSetter.setFields(instanceOfConfigClass, builderConfiguration);
-        configValidator.validate(instanceOfConfigClass);
-        return instanceOfConfigClass;
-    }
-
-    /**
-     * Sets fields of the instance, skips all fields that are not null.
-     *
-     * @param instanceOfConfigClass
-     * @return
-     */
-    public T merge(T instanceOfConfigClass) {
-        initializeErrorMessageSetup(propertyLoader);
-        setupBuilderConfiguration(propertyLoader);
-        fieldSetter.setEmptyFields(instanceOfConfigClass, builderConfiguration);
         configValidator.validate(instanceOfConfigClass);
         return instanceOfConfigClass;
     }
