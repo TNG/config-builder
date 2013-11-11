@@ -158,7 +158,7 @@ private String userName;
 
 <section>
  <section>
-  <h2 style="margin-top: 280px;">Sounds nice,<br> but does it take?</h2>
+  <h2 style="margin-top: 280px;">Sounds nice,<br> but what does it take?</h2>
  </section>
  <section>
   <h3>1. Create your class</h3>
@@ -198,16 +198,14 @@ public class TechDayConfig {
     @SystemPropertyValue("user.name")
     private String userName;
 
-    @ValueTransformer(BarbecueFactory.class)
+    @TypeTransformer(BarbecueFactory.class)
     @PropertyValue("barbecue")
     private Barbecue barbecue;
 
-    @CollectionType
     @PropertyValue("people")
     private Collection&lt;String&gt; people;
 
-    @CollectionType
-    @ValueTransformer(Steak.class)
+    @TypeTransformer(Steak.class)
     @PropertyValue("steaks")
     private Collection&lt;Steak&gt; steaks;
 }
@@ -645,7 +643,7 @@ method.invoke(null);
         controls: false,
         progress: false,
         history: true,
-        center: true,
+        center: false,
 
         theme: 'sky', // available themes are in /css/theme
         transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
