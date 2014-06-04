@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Charred Trail Example</title>
+
+    <meta name="description" content="An example for using the charred-trail plugin with reveal.js">
+    <meta name="author" content="Eric Weikl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="http://lab.hakim.se/reveal-js/css/reveal.min.css">
+    <link rel="stylesheet" href="http://lab.hakim.se/reveal-js/css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="http://lab.hakim.se/reveal-js/lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="./charred-trail.css">
+
+    <!--[if lt IE 9]>
+    <script src="http://lab.hakim.se/reveal-js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <h2>Charred Trail Example</h2>
+          <p>Press PgDown to display a list of fragments. The current fragment is highlighted.</p>
+          <ul>
+            <li class="fragment">first element</li>
+            <li class="fragment">next element</li>
+            <li class="fragment">last element</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>No Burn</h2>
+          <p>You can prevent fragments from fading out by applying additional styles.</p>
+          <h3 class="fragment no-burn">Will not fade</h3>
+          <ul>
+            <li class="fragment">these</li>
+            <li class="fragment">will</li>
+            <li class="fragment">fade</li>
+          </ul>
+        </section>
+
+        <style type="text/css">
+          code .fragment { opacity: 1.0 !important; }
+          code .fragment.visible.focus { background-color: #817E2C; -webkit-border-radius: 2px;  }
+        </style>
+
+        <section>
+          <h2>Code Highlighting</h2>
+          <p>You can use highlights in source code to point things out.</p>
+          <pre><code class="java">
+    public <span class="fragment" data-fragment-index="1">class HelloWorld</span> {
+      public static <span class="fragment" data-fragment-index="4">void</span> <span class="fragment" data-fragment-index="2">main</span>(<span class="fragment" data-fragment-index="3">String[] args</span>) {
+        <span class="fragment" data-fragment-index="5">System.out.println("Hello World!");</span>
+      }
+    }
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>More Information</h2>
+          <ul>
+            <li class="fragment no-burn"><a href="https://github.com/ericweikl/revealjs-charred">Github project</a></li>
+            <li class="fragment no-burn"><a href="http://lab.hakim.se/reveal-js/">Reveal.js home page</a></li>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="http://lab.hakim.se/reveal-js/lib/js/head.min.js"></script>
+    <script src="http://lab.hakim.se/reveal-js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        rollingLinks: true,
+        theme: Reveal.getQueryHash().theme,
+        transition: Reveal.getQueryHash().transition || 'fade',
+
+        dependencies: [
+          { src: 'http://lab.hakim.se/reveal-js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'http://lab.hakim.se/reveal-js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'charred-trail.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+/**
+ * Standard CSS classes for charred-trail. Visible elements that are not
+ * currently in focus get an opacity of 30%.
+ */
+
+.reveal .slides section .fragment.visible { opacity: 0.3; }
+
+.reveal .slides section .fragment.visible.no-burn,
+.reveal .slides section .fragment.visible.focus { opacity: 1; }
