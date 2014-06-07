@@ -12,6 +12,8 @@ define(["jquery"], function($) {
 
                 text = text.replace(/\^([0-9]+)\^(((?!\^\^)(.|\n))*)\^\^/g, "<span class=\"fragment highlight\" data-fragment-index=\"$1\">$2</span>");
                 text = text.replace(/\^\^(((?!\^\^)(.|\n))*)\^\^/g, "<span class=\"fragment highlight\">$1</span>");
+                text = text.replace(/\§([0-9]+)\§(((?!\§\§)(.|\n))*)\§\§/g, "<span class=\"fragment no-burn\" data-fragment-index=\"$1\">$2</span>");
+                text = text.replace(/\§\§(((?!\§\§)(.|\n))*)\§\§/g, "<span class=\"fragment no-burn\">$1</span>");
 
                 element.html(text);
             });

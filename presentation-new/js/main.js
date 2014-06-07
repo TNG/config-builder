@@ -17,6 +17,7 @@ require.config({
         head: '../lib/js/head',
         marked: '../plugin/markdown/marked',
 
+        highlight: 'vendor/highlight.pack',
         'socket-io': '../socket.io/socket.io'
     },
 
@@ -32,6 +33,9 @@ require.config({
         },
         reveal: {
             exports: 'Reveal'
+        },
+        highlight: {
+            exports: 'hljs'
         }
     }
 });

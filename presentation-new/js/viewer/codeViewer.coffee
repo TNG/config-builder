@@ -1,12 +1,10 @@
-define ['jquery', 'socket-io'], ($, ioSocket) ->
+define ['jquery', 'socket-io', 'highlight'], ($, ioSocket, highlight) ->
   class CodeViewer
     id = 'editor'
 
     constructor: ->
-      console.log("I am here")
-
       @_initSocket()
-      @_initEditors()
+      @_initViewers()
 
     _initSocket: =>
       @_socket = ioSocket.connect();
@@ -21,35 +19,15 @@ define ['jquery', 'socket-io'], ($, ioSocket) ->
       fileName = data.fileName
       console.log "Content of file #{fileName} has changed"
 
-      console.log($("textarea[data-file='#{fileName}']").size())
+      $("code[data-file='#{fileName}']").each ->
+        $('#' + this.id).html(highlight.highlight("java", data.content).value);
 
-      $("textarea[data-file='#{fileName}']").each ->
-        console.log this.id
-        editAreaLoader.setValue this.id, data.content
-
-    _initEditors: =>
+    _initViewers: =>
       codeViewer = @
-      $('textarea[data-file]').each ->
-        codeViewer._initEditor this.id
-        codeViewer._fillEditorWithContent this.id
+      $('code[data-file]').each ->
+        codeViewer._fillViewerWithContent this.id
 
-    _initEditor: (id) =>
-      console.log 'Creating editor for id ' + id
-      editAreaLoader.init({
-        id: id,
-        syntax: "java",
-
-        start_highlight: true,
-        allow_resize: "no",
-        allow_toggle: true,
-        language: "en",
-        toolbar: "Editor",
-
-        replace_tab_by_spaces: 4,
-        min_height: 350
-      })
-
-    _fillEditorWithContent: (id) =>
+    _fillViewerWithContent: (id) =>
       fileName = $('#' + id).attr('data-file')
       @_socket.emit 'file', {fileName: fileName}, (data) =>
-        editAreaLoader.setValue id, data.content
+        $('#' + id).html(highlight.highlight("java", data.content).value)

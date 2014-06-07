@@ -9,5 +9,5 @@ public class Config {
     private String characterName;
     
     @FooValue()
-    private int x;
+    private int x;   
 }
