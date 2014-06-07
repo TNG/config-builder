@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
+
+<html>
+<head>
+    <title>Editor</title>
+
+    <script language="Javascript" type="text/javascript" src="js/vendor/edit_area/edit_area_full.js"></script>
+    <script data-main="js/main-editor" src="js/vendor/require.js"></script>
+
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+
+<label for="editor-file">Java file</label>
+<select id="editor-file" name="editor-file" data-base-path="java">
+    <option value="Config1.java">Default Value</option>
+    <option value="Config2.java">Property Value</option>
+</select>
+<div>
+    <textarea id="editor" data-file="" name="editor"></textarea>
+</div>
+
+</body>
+</html>
