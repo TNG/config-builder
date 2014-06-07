@@ -186,6 +186,11 @@ body.charred .reveal .slides section .fragment.highlight.focus {
   -webkit-border-radius: 4px;
   border-radius: 4px; }
 
+textarea {
+    width: 900px;
+    height: 500px;
+}
+
 /* apply .not-printed to elements that should not be displayed in hardcopy */
 @media print {
   .not-printed {

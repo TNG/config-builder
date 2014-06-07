@@ -1,6 +1,8 @@
 require.config({
     paths: {
         text: 'vendor/text',
+        'coffee-script': 'vendor/coffeescript',
+        'cs': 'vendor/cs',
 
         jquery: 'vendor/jquery',
         jqueryAnimateColors: 'vendor/jquery.animate.colors',
@@ -13,7 +15,9 @@ require.config({
 
         reveal: 'vendor/reveal',
         head: '../lib/js/head',
-        marked: '../plugin/markdown/marked'
+        marked: '../plugin/markdown/marked',
+
+        'socket-io': '../socket.io/socket.io'
     },
 
     shim: {
@@ -33,7 +37,7 @@ require.config({
 });
 
 
-require(['head', 'jquery', 'marked', 'custom/structure.builder', 'custom/issue.fixer' ], function(head, $, marked, StructureBuilder, IssueFixer) {
+require(['head', 'jquery', 'marked', 'custom/structure.builder', 'custom/issue.fixer', 'cs!viewer/codeViewer' ], function(head, $, marked, StructureBuilder, IssueFixer, CodeViewer) {
     var structureBuilder = StructureBuilder();
     structureBuilder.buildRevealStructure();
     structureBuilder.highlightCode();
@@ -47,6 +51,9 @@ require(['head', 'jquery', 'marked', 'custom/structure.builder', 'custom/issue.f
         require(['jqueryAnimateColors', 'jqueryBrowser', 'jqueryFlot', 'jquerySvg'], function() {
             require(['jqueryAnimateSvg'], function() {
                 // The framework is now initialized
+
+                new CodeViewer();
+
                 var event = new CustomEvent("initialized", {});
                 document.body.dispatchEvent(event);
 
