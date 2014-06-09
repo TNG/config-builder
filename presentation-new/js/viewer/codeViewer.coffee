@@ -20,7 +20,7 @@ define ['jquery', 'socket-io', 'highlight'], ($, ioSocket, highlight) ->
       console.log "Content of file #{fileName} has changed"
 
       $("code[data-file='#{fileName}']").each ->
-        $('#' + this.id).html(highlight.highlight("java", data.content).value);
+        $('#' + this.id).html(highlight.highlight("java", @_getContent(data.content)).value);
 
     _initViewers: =>
       codeViewer = @
@@ -30,4 +30,9 @@ define ['jquery', 'socket-io', 'highlight'], ($, ioSocket, highlight) ->
     _fillViewerWithContent: (id) =>
       fileName = $('#' + id).attr('data-file')
       @_socket.emit 'file', {fileName: fileName}, (data) =>
-        $('#' + id).html(highlight.highlight("java", data.content).value)
+        $('#' + id).html(highlight.highlight("java", @_getContent(data.content)).value)
+
+    _getContent: (data) =>
+      # Replace every line between "// not shown" and "// shown"
+      data = data.replace /.*\/\/(\s)*not shown([\s\S])*?\/\/(\s)*shown.*\n/g, ""
+      return data
