@@ -67,7 +67,6 @@ define ['jquery', 'socket-io'], ($, ioSocket) ->
 
         $('.output').text "Executing ... Please wait!"
         @_socket.emit 'execute', {className: className}, (data) =>
-          console.log data.output
           $('.output').text data.output
 
     _getCurrentFileName: =>
