@@ -1,5 +1,17 @@
-
 #editor {
-    width: 1000px;
-    height: 750px;
+    width: 900px;
+    height: 400px;
+}
+
+#edit_area_toggle_reg_syntax\.js {
+    display: none;
+}
+
+.output {
+    display: block;
+
+    width: 900px;
+    height: 75px;
+
+    border: 1px solid black;
 }

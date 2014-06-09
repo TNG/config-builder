@@ -7,6 +7,7 @@ define ['jquery', 'socket-io'], ($, ioSocket) ->
       @_initEditor()
       @_initChangeHandler()
       @_initSaveHandler()
+      @_initExecuteHandler()
 
       @_editorContent = ""
       @_loadNewFile()
@@ -44,6 +45,8 @@ define ['jquery', 'socket-io'], ($, ioSocket) ->
         if not data.error?
           editAreaLoader.setValue id, data.content
           $('#' + id).attr('data-file', fileName)
+          $('.ouput').text('');
+
           @_editorContent = data.content
         else
           console.log "Error loading file: #{data.error}"
@@ -58,5 +61,19 @@ define ['jquery', 'socket-io'], ($, ioSocket) ->
         @_socket.emit 'changeFile', { fileName: fileName, content: newEditorContent }
         @_editorContent = newEditorContent
 
+    _initExecuteHandler: =>
+      $('#execute').click =>
+        className = @_getCurrentClassName()
+
+        $('.output').text "Executing ... Please wait!"
+        @_socket.emit 'execute', {className: className}, (data) =>
+          console.log data.output
+          $('.output').text data.output
+
     _getCurrentFileName: =>
-      $('#editor-file').attr('data-base-path') + '/' + $('#editor-file option:selected').attr('value')
+      $('#editor-file').attr('data-base-path') + "/" + $('#editor-file').attr('data-base-package-name') + '/' + $('#editor-file option:selected').attr('value')
+
+    _getCurrentClassName: =>
+      classNamePath = $('#editor-file').attr('data-base-package-name') + '/' + $('#editor-file option:selected').attr('value')
+      className = classNamePath.replace(/\.java/, "").replace(/\//g, ".")
+      return className

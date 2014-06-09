@@ -5,6 +5,7 @@ define ['jquery', 'socket-io', 'highlight'], ($, ioSocket, highlight) ->
     constructor: ->
       @_initSocket()
       @_initViewers()
+      @_initOutput()
 
     _initSocket: =>
       @_socket = ioSocket.connect();
@@ -14,13 +15,23 @@ define ['jquery', 'socket-io', 'highlight'], ($, ioSocket, highlight) ->
       @_socket.on 'disconnect', =>
         console.log 'disconnect'
       @_socket.on 'file', @_fileContentChanged
+      @_socket.on 'executionResult', @_executionResultReceived
 
     _fileContentChanged: (data) =>
       fileName = data.fileName
+      codeViewer = @
       console.log "Content of file #{fileName} has changed"
 
       $("code[data-file='#{fileName}']").each ->
-        $('#' + this.id).html(highlight.highlight("java", @_getContent(data.content)).value);
+        $('#' + this.id).html highlight.highlight("java", codeViewer._getContent(data.content)).value
+
+    _executionResultReceived: (data) =>
+      className = data.className
+      console.log "Execution result for class #{className} received"
+
+      $("pre[data-class-name='#{className}']").each ->
+        $(this).parent('.output-section').css('visibility', 'visible')
+        $(this).text(data.output)
 
     _initViewers: =>
       codeViewer = @
@@ -39,3 +50,6 @@ define ['jquery', 'socket-io', 'highlight'], ($, ioSocket, highlight) ->
       # Replace every line between "// not shown" and "// shown"
       data = data.replace /.*\/\/(\s)*not shown([\s\S])*?\/\/(\s)*shown.*\n/g, ""
       return data
+
+    _initOutput: =>
+      $('.output-section').css("visibility", "hidden");

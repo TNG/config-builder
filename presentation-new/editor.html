@@ -13,12 +13,19 @@
 <body>
 
 <label for="editor-file">Java file</label>
-<select id="editor-file" name="editor-file" data-base-path="java/src/main/java/com/tngtech/test">
+<select id="editor-file" name="editor-file" data-base-path="java/src/main/java" data-base-package-name="com/tngtech/test">
     <option value="example1/Config.java">Default Value</option>
     <option value="example2/Config.java">Property Value</option>
 </select>
+<button id="execute">Execute</button>
 <div>
     <textarea id="editor" data-file="" name="editor"></textarea>
+</div>
+
+<h2>Output:</h2>
+
+<div>
+    <pre class="output"></pre>
 </div>
 
 </body>

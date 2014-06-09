@@ -2,9 +2,8 @@ var fs = require('fs'),
     sys = require('sys'),
     express = require('express'),
     http = require('http'),
-    io = require('socket.io');
-
-
+    io = require('socket.io'),
+    childProcess = require('child_process');
 
 var app = express();
 var server = http.createServer(app);
@@ -22,7 +21,7 @@ function addClient(client) {
 }
 
 function removeClient(client) {
-    var index = clients.indexOf(client)
+    var index = clients.indexOf(client);
     if (index != -1) {
         clients.splice(index, 1);
     }
@@ -31,6 +30,12 @@ function removeClient(client) {
 socket.on('connection', function(client) {
     console.log('new connection');
     addClient(client);
+
+    function sendToAllClients(eventName, data) {
+        for (var i = 0; i < clients.length; i++) {
+            clients[i].emit(eventName, data)
+        }
+    }
 
     client.on('file', function(data, callback) {
         console.log("File " + data.fileName + " requested");
@@ -46,15 +51,20 @@ socket.on('connection', function(client) {
     });
 
     client.on('changeFile', function(data) {
-        var client;
-
         console.log("Writing to file " + data.fileName);
-        fs.writeFile(data.fileName, data.content)
+        fs.writeFile(data.fileName, data.content);
+        sendToAllClients('file', data);
+    });
 
-        for (var i = 0; i < clients.length; i++) {
-            //noinspection JSUnfilteredForInLoop
-            clients[i].emit('file', data)
-        }
+    client.on('execute', function(data, callback) {
+        console.log("Executing " + data.className);
+        childProcess.exec("java/buildAndExecute.sh " + data.className, function(error, stdout) {
+            console.log("Execution ended " + (error == null ? "successfully" : "with an error: " + error));
+            data = {className: data.className, output: error == null ? stdout : error.toString()};
+
+            callback(data);
+            sendToAllClients('executionResult', data);
+        });
     });
 
     client.on('disconnect', function() {
