@@ -30,9 +30,23 @@ define(["jquery"], function($) {
             }).addClass("fragment");
         }
 
+        function isPrinted() {
+            // TODO better solution
+            return (/print-pdf/gi).test(window.location.search);
+        }
+
+        function removeSlidesAccordingToMediaType() {
+            if (!isPrinted()) {
+                $('section.only-in-print').remove();
+            } else if (isPrinted()) {
+                $('section.not-printed').remove();
+            }
+        }
+
         return {
             buildRevealStructure: buildRevealStructure,
-            highlightCode: highlightCode
+            highlightCode: highlightCode,
+            removeSlidesAccordingToMediaType: removeSlidesAccordingToMediaType
         };
     };
 });

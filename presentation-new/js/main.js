@@ -45,6 +45,7 @@ require(['head', 'jquery', 'marked', 'custom/structure.builder', 'custom/issue.f
     var structureBuilder = StructureBuilder();
     structureBuilder.buildRevealStructure();
     structureBuilder.highlightCode();
+    structureBuilder.removeSlidesAccordingToMediaType();
 
     // Since we both use AMD and non-AMD plugins, we must load marked asynchronously
     if (!!document.querySelector('[data-markdown]')) {
