@@ -196,6 +196,10 @@ pre.output {
   padding-top: 20px;
 }
 
+.reveal > .slides section img {
+    box-shadow: none;
+}
+
 /* apply .not-printed to elements that should not be displayed in hardcopy */
 @media print {
   .not-printed {
