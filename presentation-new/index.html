@@ -41,17 +41,18 @@
 </div>
 
 <section>
-    <h1>Config-Builder</h1>
+    <img src="img/builder/tag-cloud.png" style="width: 1200px; box-shadow: none;"/>
 
-    <h3>Alles in einer Klasse</h3>
 
-    <p style="padding-top:15%">
+    <p style="padding-top:2%">
         <a href="mailto:matthias.bollwein@tngtech.com">Matthias Bollwein</a>,
         <a href="mailto:thomas.endres@tngtech.com">Thomas Endres</a>,
         <a href="mailto:andreas.wuerl@tngtech.com">Andreas Würl</a><br/>
         Stuttgart, 17.07.2014
     </p>
-    <a href="http://www.tngtech.com"><img class="logo" src="img/tng.svg"></a>
+    <p style="padding-top:2%">
+    <a href="http://www.tngtech.com"><img class="logo" src="img/tng.svg" style="box-shadow: none;"></a>
+    </p>
 </section>
 
 <section data-title="Motivation">
@@ -115,7 +116,7 @@
     </section>
 </section>
 
-<section>
+<section data-title="Getting started">
 
     <section>
         <h2>What do we need?</h2>
@@ -237,11 +238,13 @@
     {
         // ...
 
+        @EnvironmentVariableValue("PWD")
         private Path currentDirectory;
 
         @PropertyValue("player.color")
         private Color playerColor;
 
+        @PropertyValue("cheats.active")
         private Set&lt;Cheat&gt; activeCheats;
 
         // Setters and getters
@@ -300,48 +303,65 @@
         </code></pre>
     </section>
 
-
     <section>
-        <h2>Property-Loader</h2>
+        <h2>Features &ndash; so far</h2>
+
+        <ul class="no-burn">
+            <li> value sources
+                <ul class="no-burn">
+                    <li>default values</li>
+                    <li>property files</li>
+                    <li>system properties</li>
+                    <li>environment variables</li>
+
+                </ul>
+            </li>
+            <li>type-transformers
+                <ul class="no-burn">
+                    <li>primitive/collection (integrated)</li>
+                    <li>custom transformers</li>
+                    <li>with transitive combination</li>
+                </ul>
+            </li>
+        </ul>
+
     </section>
+</section>
+<section data-title="Validation">
 
     <section>
         <h2>Validation</h2>
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
+    <section>
+        <h3>JSR303</h3>
+    </section>
+    <section>
+        <h3>Validate method</h3>
     </section>
 
+</section>
+<section data-title="Property-Loader">
+    <section>
+        <h2>Property-Loader</h2>
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
+    <section>
+        <h3>Files, Suffixes &amp; Extensions</h3>
+    </section>
+    <section>
+        <h3>Locations</h3>
+    </section>
+</section>
+<section data-title="Extending">
 
     <section>
-        <h3>Features</h3>
+        <h2>Extensions</h2>
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
 
-        <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:180px; margin-left: 50px;">
-            <ul class="fragment fade-out" data-fragment-index="6">
-                <li class="fragment fade-in" data-fragment-index="2">paths and URLs</li>
-                <li class="fragment fade-in" data-fragment-index="3">classpath</li>
-                <li class="fragment fade-in" data-fragment-index="4">relative to a class</li>
-                <li class="fragment fade-in" data-fragment-index="5">ClassLoader</li>
-            </ul>
-        </ul>
-        <ul class="fragment fade-in" data-fragment-index="8" style="position:absolute; margin-top:220px; margin-left: 50px;">
-            <ul class="fragment fade-out" data-fragment-index="11">
-                <li class="fragment fade-in" data-fragment-index="8">local hostames</li>
-                <li class="fragment fade-in" data-fragment-index="9">username</li>
-                <li class="fragment fade-in" data-fragment-index="10">custom Suffixes</li>
-            </ul>
-        </ul>
-        <ul class="fragment fade-in" data-fragment-index="12" style="position:absolute; margin-top:260px; margin-left: 50px;">
-            <ul>
-                <li class="fragment fade-in" data-fragment-index="12">resolving of variables</li>
-                <li class="fragment fade-in" data-fragment-index="13">environment variables</li>
-                <li class="fragment fade-in" data-fragment-index="14">system properties</li>
-                <li class="fragment fade-in" data-fragment-index="15">file includes</li>
-                <li class="fragment fade-in" data-fragment-index="16">encryption/decryption</li>
-            </ul>
-        </ul>
-        <ul style="margin-top:100px">
-            <li class="fragment" data-fragment-index="1">hierarchial finding and loading of key-value files (properties/XML)</li>
-            <li class="fragment" data-fragment-index="7">suffixes</li>
-            <li class="fragment" data-fragment-index="11">postprocessing</li>
-        </ul>
+    <section>
+        <h3>Value source extension &ndash; File content value</h3>
     </section>
 </section>
 
