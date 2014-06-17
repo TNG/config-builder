@@ -65,11 +65,13 @@
 
         §§private int difficulty;§§
 
-        §§private Collection&lt;String&gt; activeCheats;§§
+        §§private int playerColor;§§
 
-        §§private OperatingSystem os;§§
+        §§private String activeCheats;§§
 
-        §§private URL proxyServerHost;§§
+        §§private String language;§§
+
+        §§private String currentDirectory;§§
 
         §§// Setters and getters§§
     }
@@ -103,12 +105,243 @@
         <pre><code class="java" data-noescape>
     public Config loadConfig() {
         return new ConfigBuilder<>(Config.class).build();
+        return ConfigBuilder.on(Config.class).build();
     }
         </code></pre>
     </section>
 
     <section>
         <img src="img/builder/config-builder.jpg"/>
+    </section>
+</section>
+
+<section>
+
+    <section>
+        <h2>What do we need?</h2>
+        <h1>Default Values</h1>
+
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
+
+    <section>
+        <h2>Our config class</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        @DefaultValue("Player")
+        private String characterName;
+
+        @DefaultValue("1")
+        private int difficulty;
+
+        // ...
+    }
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>What do we need?</h2>
+        <h1>Command Line Options</h1>
+
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
+
+    <section>
+        <h2>Our config class</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        @DefaultValue("Player")
+        @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
+        private String characterName;
+
+        @DefaultValue("1")
+        @CommandLineValue{shortOpt="d", longOpt="difficulty", hasArg=true}
+        private int difficulty;
+
+        // ...
+    }
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>What do we need?</h2>
+        <h1>System Properties & Environment Variables</h1>
+
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
+
+    <section>
+        <h2>Our config class</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        // ...
+
+        @SystemPropertyValue("user.language")
+        private String language;
+
+        @EnvironmentVariableValue("PWD")
+        private String currentDirectory;
+
+        // ...
+    }
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>What do we need?</h2>
+        <h1>Property Values</h1>
+
+        <img src="img/builder/default.jpg" style="width: 300px;"/>
+    </section>
+
+    <section>
+        <h2>Our config class</h2>
+
+        <pre><code class="java" data-noescape>
+    @PropertiesFiles({"config.properties"})
+    public class Config
+    {
+        // ...
+
+        @PropertyValue("player.color")
+        private int playerColor;
+
+        @DefaultValue("1")
+        @CommandLineValue({shortOpt="d", longOpt="difficulty", hasArg=true})
+        @PropertyValue("difficulty")
+        private int difficulty;
+
+        // ...
+    }
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>What do we need?</h2>
+        <h1>Type Conversion</h1>
+
+        <img src="img/builder/type-conversion.jpg" style="width: 300px;"/>
+    </section>
+
+    <section>
+        <h2>Our config class</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        // ...
+
+        private Path currentDirectory;
+
+        @PropertyValue("player.color")
+        private Color playerColor;
+
+        private Set&lt;Cheat&gt; activeCheats;
+
+        // Setters and getters
+    }
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>Type Transformer for Color</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        // ...
+
+        @PropertyValue("player.color")
+        @TypeTransformers({StringToColorTransformer.class})
+        private Color playerColor;
+
+        // ...
+
+        public static class StringToColorTransformer
+            extends TypeTransformer&lt;String, Color&gt; {
+
+            @Override
+            public Color transform(String colorText) {
+                StyleSheet styleSheet = new StyleSheet();
+                return styleSheet.stringToColor(colorText);
+            }
+        }
+    }
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>Type Transformer for Set&lt;Cheat&gt;</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config {
+
+        @PropertyValue("cheats.active")
+        @TypeTransformers({StringToCheatTransformer.class})
+        private Set&lt;Cheat&gt; cheats;
+
+        // ...
+
+        public class StringToCheatTransformer
+            extends TypeTransformer&lt;String, Cheat&gt; {
+
+            @Override
+            public Cheat transform(String cheatText) {
+                return Cheat.valueOf(cheatText);
+            }
+        }
+    }
+        </code></pre>
+    </section>
+
+
+    <section>
+        <h2>Property-Loader</h2>
+    </section>
+
+    <section>
+        <h2>Validation</h2>
+    </section>
+
+
+    <section>
+        <h3>Features</h3>
+
+        <ul class="fragment fade-in" data-fragment-index="2" style="position:absolute; margin-top:180px; margin-left: 50px;">
+            <ul class="fragment fade-out" data-fragment-index="6">
+                <li class="fragment fade-in" data-fragment-index="2">paths and URLs</li>
+                <li class="fragment fade-in" data-fragment-index="3">classpath</li>
+                <li class="fragment fade-in" data-fragment-index="4">relative to a class</li>
+                <li class="fragment fade-in" data-fragment-index="5">ClassLoader</li>
+            </ul>
+        </ul>
+        <ul class="fragment fade-in" data-fragment-index="8" style="position:absolute; margin-top:220px; margin-left: 50px;">
+            <ul class="fragment fade-out" data-fragment-index="11">
+                <li class="fragment fade-in" data-fragment-index="8">local hostames</li>
+                <li class="fragment fade-in" data-fragment-index="9">username</li>
+                <li class="fragment fade-in" data-fragment-index="10">custom Suffixes</li>
+            </ul>
+        </ul>
+        <ul class="fragment fade-in" data-fragment-index="12" style="position:absolute; margin-top:260px; margin-left: 50px;">
+            <ul>
+                <li class="fragment fade-in" data-fragment-index="12">resolving of variables</li>
+                <li class="fragment fade-in" data-fragment-index="13">environment variables</li>
+                <li class="fragment fade-in" data-fragment-index="14">system properties</li>
+                <li class="fragment fade-in" data-fragment-index="15">file includes</li>
+                <li class="fragment fade-in" data-fragment-index="16">encryption/decryption</li>
+            </ul>
+        </ul>
+        <ul style="margin-top:100px">
+            <li class="fragment" data-fragment-index="1">hierarchial finding and loading of key-value files (properties/XML)</li>
+            <li class="fragment" data-fragment-index="7">suffixes</li>
+            <li class="fragment" data-fragment-index="11">postprocessing</li>
+        </ul>
     </section>
 </section>
 
@@ -140,6 +373,7 @@
             <pre class="output" data-class-name="com.tngtech.test.example2.Config"></pre>
         </div>
     </section>
+
 </section>
 
 <section>

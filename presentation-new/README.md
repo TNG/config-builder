@@ -1,5 +1,28 @@
 
-Start des HTML-Servers:  
-- Wechsel per Konsole auf das Verzeichnis  
-- Start des Servers mit dem Konsolenbefehl 'python -m SimpleHTTPServer 8081' (Python 2.7)  
-- Aufruf der Seite im Browser über 'http://localhost:8081'  
+# Vorbereitung
+
+```
+npm install
+```
+
+# Start des HTML-Servers:
+
+```
+node server.js
+```
+
+# Start der Präsentation
+
+Im Browser auf folgende URL gehen:
+
+```
+http://localhost:3000
+```
+
+# Java-Editor öffnen
+
+Im Browser auf folgende URL gehen:
+
+```
+http://localhost:3000/editor
+```
