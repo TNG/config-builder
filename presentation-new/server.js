@@ -3,15 +3,19 @@ var fs = require('fs'),
     express = require('express'),
     http = require('http'),
     io = require('socket.io'),
-    childProcess = require('child_process');
+    childProcess = require('child_process'),
+    minimist = require('minimist');
 
 var app = express();
 var server = http.createServer(app);
 var socket = io.listen(server);
 
+var args = minimist(process.argv.slice(2));
+var port = args.port || 8000;
+
 socket.set('log level', 1);
 
-server.listen(3000);
+server.listen(port);
 
 app.use(express.static(__dirname));
 
