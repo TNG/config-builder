@@ -13,5 +13,6 @@
     width: 900px;
     height: 75px;
 
+    overflow: auto;
     border: 1px solid black;
 }
