@@ -42,7 +42,6 @@ socket.on('connection', function(client) {
         fs.readFile(data.fileName, function(err, fileData) {
             if (err) {
                 console.log("File " + data.fileName + " not present");
-                callback({error: 'No such file'});
             } else {
                 console.log("File " + data.fileName + " sent");
                 callback({fileName: data.fileName, content: fileData.toString()});
@@ -57,10 +56,10 @@ socket.on('connection', function(client) {
     });
 
     client.on('execute', function(data, callback) {
-        console.log("Executing " + data.className);
-        childProcess.exec("java/buildAndExecute.sh " + data.className, function(error, stdout) {
+        console.log("Executing " + data.command);
+        childProcess.exec(data.command, function(error, stdout) {
             console.log("Execution ended " + (error == null ? "successfully" : "with an error: " + error));
-            data = {className: data.className, output: error == null ? stdout : error.toString()};
+            data = {fileName: data.fileName, output: error == null ? stdout : error.toString()};
 
             callback(data);
             sendToAllClients('executionResult', data);

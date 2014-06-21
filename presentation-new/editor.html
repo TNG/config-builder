@@ -13,9 +13,17 @@
 <body>
 
 <label for="editor-file">Java file</label>
-<select id="editor-file" name="editor-file" data-base-path="java/src/main/java" data-base-package-name="com/tngtech/test">
-    <option value="example1/Config.java">Default Value</option>
-    <option value="example2/Config.java">Property Value</option>
+<select id="editor-file" name="editor-file" data-base-path="java">
+    <option value="src/main/java/com/tngtech/test/example1/Config.java"
+            data-language="java"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.example1.Config">
+        Echo (version 1)
+    </option>
+    <option value="src/main/java/com/tngtech/test/example2/Config.java"
+            data-language="java"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.example2.Config">
+        Echo (version 2)
+    </option>
 </select>
 <button id="execute">Execute</button>
 <div>
