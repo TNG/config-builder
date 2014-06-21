@@ -194,6 +194,8 @@ pre.output {
   height: 50px;
   padding-left: 10px;
   padding-top: 20px;
+
+  overflow: auto;
 }
 
 .reveal > .slides section img {
