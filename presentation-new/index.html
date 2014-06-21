@@ -120,11 +120,17 @@
 <section data-title="Getting started">
 
     <section>
-        <img src="img/visual/defaultValues.png"/>
+        <h2>Basic tool box</h2>
+        <img src="img/toolbox/toolbox.png" style="height: 350px;"/>
     </section>
 
     <section>
-        <h2>Our config class</h2>
+        <h2>Default values</h2>
+        <img src="img/toolbox/screwdriver.png" style="height: 350px;"/>
+    </section>
+
+    <section>
+        <h2>Default values</h2>
 
         <pre><code class="java" data-noescape>
     public class Config
@@ -141,11 +147,12 @@
     </section>
 
     <section>
-        <img src="img/visual/cliValues.png"/>
+        <h2>Command line values</h2>
+        <img src="img/toolbox/hammer.png" style="height: 500px;"/>
     </section>
 
     <section>
-        <h2>Our config class</h2>
+        <h2>Command line values</h2>
 
         <pre><code class="java" data-noescape>
     public class Config
@@ -164,11 +171,13 @@
     </section>
 
     <section>
-        <img src="img/visual/envAndSystem.png"/>
+        <h2>Env variables and<br/>system properties</h2>
+
+        <img src="img/toolbox/wrench.png" style="height: 400px;"/>
     </section>
 
     <section>
-        <h2>Our config class</h2>
+        <h2>Env vars/system properties</h2>
 
         <pre><code class="java" data-noescape>
     public class Config
@@ -187,7 +196,8 @@
     </section>
 
     <section>
-        <img src="img/visual/propertyValues.png"/>
+        <h2>Property values</h2>
+        <img src="img/toolbox/saw.png" style="height: 400px;"/>
     </section>
 
     <section>
@@ -213,11 +223,9 @@
     </section>
 
     <section>
-        <h2>What do we need?</h2>
+        <h2>Type Conversion</h2>
 
-        <h1>Type Conversion</h1>
-
-        <img src="img/builder/type-conversion.jpg" style="width: 300px;"/>
+        <img src="img/toolbox/conversion.png" style="width: 300px;"/>
     </section>
 
     <section>
@@ -243,7 +251,7 @@
     </section>
 
     <section>
-        <h2>Type Transformer for Color</h2>
+        <h2>Transformer for Color</h2>
 
         <pre><code class="java" data-noescape>
     public class Config
@@ -270,7 +278,7 @@
     </section>
 
     <section>
-        <h2>Type Transformer for Set&lt;Cheat&gt;</h2>
+        <h2>Transformer for Set&lt;Cheat&gt;</h2>
 
         <pre><code class="java" data-noescape>
     public class Config {
@@ -294,26 +302,41 @@
     </section>
 
     <section>
-        <h2>Features &ndash; so far</h2>
+        <h2>Tools so far</h2>
 
-        <ul class="no-burn">
-            <li> value sources
-                <ul class="no-burn">
-                    <li>default values</li>
-                    <li>property files</li>
-                    <li>system properties</li>
-                    <li>environment variables</li>
+        <div class="animated-html" style="height: 600px;">
+            <initial>
+                <state data-id="toolbox-basic-features" data-property="opacity" data-value="0"></state>
+            </initial>
+            <animation data-duration="500">
+                <animate data-id="toolbox-open" data-property="opacity" data-value="0"></animate>
+                <animate data-id="toolbox-basic-features" data-property="opacity" data-value="1"></animate>
+            </animation>
 
-                </ul>
-            </li>
-            <li>type-transformers
+            <img id="toolbox-open" src="img/toolbox/toolbox-open.png" style="height: 400px;"/>
+
+            <div id="toolbox-basic-features" style="margin-top: -400px;">
                 <ul class="no-burn">
-                    <li>primitive/collection (integrated)</li>
-                    <li>custom transformers</li>
-                    <li>with transitive combination</li>
+                    <li>Value sources
+                        <ul class="no-burn">
+                            <li>Default values</li>
+                            <li>Properties files</li>
+                            <li>System properties</li>
+                            <li>Environment variables</li>
+
+                        </ul>
+                    </li>
+                    <li>Type transformers
+                        <ul class="no-burn">
+                            <li>Primitive/Collection (integrated)</li>
+                            <li>Custom transformers</li>
+                            <li>with transitive combination</li>
+                        </ul>
+                    </li>
                 </ul>
-            </li>
-        </ul>
+            </div>
+        </div>
+
 
     </section>
 </section>
