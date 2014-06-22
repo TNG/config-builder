@@ -348,9 +348,48 @@
     </section>
     <section>
         <h3>JSR303</h3>
+	        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        // ...
+
+        @Size(min = 2, max = 14)
+        @DefaultValue("Player")
+        @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
+        private String characterName;
+		
+        @NotNull
+        @EnvironmentVariableValue("PWD")
+        private Path currentDirectory;
+
+        // Setters and getters
+    }
+	        </code></pre>
     </section>
     <section>
         <h3>Validate method</h3>
+	        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        // ...
+
+        @Size(min = 2, max = 14)
+        @DefaultValue("Player")
+        @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
+        private String characterName;
+		
+        @NotNull
+        @EnvironmentVariableValue("PWD")
+        private Path currentDirectory;
+			
+        @Validation
+        private void validate() {
+            //Do whatever we want...
+        }
+
+        // Setters and getters
+    }
+	        </code></pre>
     </section>
 
 </section>
@@ -360,10 +399,75 @@
         <img src="img/toolbox/sawblade.png" style="height: 400px;"/>
     </section>
     <section>
-        <h3>Files, Suffixes &amp; Extensions</h3>
+        <h3>File Names, Suffixes &amp; Extensions</h3>
+		 <pre><code class="java" data-noescape>
+    @PropertiesFiles({"globalconfig", "userconfig"})
+    @PropertySuffixes(extraSuffixes = {"tngtech","myname"}, hostNames = true)
+    @PropertyExtension("fileextension")
+    public class Config {
+
+	    @PropertyValue("cheats.active")
+	    @TypeTransformers({StringToCheatTransformer.class})
+	    private Set&lt;Cheat&gt; cheats;
+
+	    // ...
+    }
+		</code></pre>
     </section>
     <section>
         <h3>Locations</h3>
+		 <pre><code class="java" data-noescape>
+    @PropertyLocations(directories = {"/home/user"}, contextClassLoader = true)
+    @PropertiesFiles({"globalconfig", "userconfig"})
+    public class Config {
+
+	    @PropertyValue("cheats.active")
+	    @TypeTransformers({StringToCheatTransformer.class})
+	    private Set&lt;Cheat&gt; cheats;
+
+	    // ...
+    }
+		</code></pre>
+    </section>
+    <section>
+        <h2>Property Loader Configuration: Overview</h2>
+
+        <div class="animated-html" style="height: 600px;">
+            <initial>
+                <state data-id="toolbox-basic-features" data-property="opacity" data-value="0"></state>
+            </initial>
+            <animation data-duration="500">
+                <animate data-id="toolbox-open" data-property="opacity" data-value="0"></animate>
+                <animate data-id="toolbox-basic-features" data-property="opacity" data-value="1"></animate>
+            </animation>
+
+            <img id="toolbox-open" src="img/toolbox/toolbox-open.png" style="height: 400px;"/>
+
+            <div id="toolbox-basic-features" style="margin-top: -400px;">
+                <ul class="no-burn">
+					<li>List of file basenames</li>
+					<li>File extension</li>
+                    <li>Suffixes
+                        <ul class="no-burn">
+                            <li>User name</li>
+                            <li>Local host name</li>
+                            <li>"override"</li>
+                            <li>Custom extra suffixes</li>
+
+                        </ul>
+                    </li>
+                    <li>Search locations</li>
+                        <ul class="no-burn">
+                            <li>Classpath</li>
+                            <li>Home directory</li>
+							<li>Custom directories</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
     </section>
 </section>
 <section data-title="Extensions">
@@ -375,7 +479,40 @@
 
     <section>
         <h3>Value source extension &ndash; File content value</h3>
+		<li>Annotation</li>
+			 <pre><code class="java" data-noescape>
+    @ValueExtractorAnnotation(DefaultValueProcessor.class)
+    @Target(ElementType.FIELD)
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface FileContentValue {
+        String value();
+        String encoding() default "UTF-8";
+    }
+			</code></pre>
+	<li>Annotation Processor</li>
+			 <pre><code class="java" data-noescape>
+    public class DefaultValueProcessor implements ValueExtractorProcessor {
+        public String getValue(Annotation annotation, ConfigBuilderFactory configBuilderFactory) {
+		    try {
+                FileContentValue fileContentValue = (FileContentValue) annotation:
+                byte[] content = Files.readAllBytes(Paths.get(fileContentValue.value()));
+                return new String(content, fileContentValue.encoding());		
+            } catch(IOException e) { e.printStackTrace(); }            
+        }
+    }
+			</code></pre>
     </section>
+	<section>
+			 <pre><code class="java" data-noescape>
+    public class Config {
+
+        @FileContentValue("/home/user/help.txt", encoding="ISO 8859-1")
+        private String helptext;
+
+	    // ...
+    }
+			</code></pre>
+	</section>
 </section>
 
 <section>
