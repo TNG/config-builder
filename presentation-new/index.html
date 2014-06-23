@@ -67,13 +67,13 @@
 
         §§private int difficulty;§§
 
-        §§private int playerColor;§§
+        §§private Color playerColor;§§
 
-        §§private String activeCheats;§§
+        §§private Set&lt;Cheat&gt; activeCheats;§§
 
         §§private String language;§§
 
-        §§private String currentDirectory;§§
+        §§private Path currentDirectory;§§
 
         §§// Setters and getters§§
     }
@@ -106,7 +106,6 @@
 
         <pre><code class="java" data-noescape>
     public Config loadConfig() {
-        return new ConfigBuilder<>(Config.class).build();
         return ConfigBuilder.on(Config.class).build();
     }
         </code></pre>
@@ -135,10 +134,10 @@
         <pre><code class="java" data-noescape>
     public class Config
     {
-        @DefaultValue("Player")
+        ^^@DefaultValue("Player")^^
         private String characterName;
 
-        @DefaultValue("1")
+        ^^@DefaultValue("1")^^
         private int difficulty;
 
         // ...
@@ -158,37 +157,12 @@
     public class Config
     {
         @DefaultValue("Player")
-        @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
+        ^^@CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}^^
         private String characterName;
 
         @DefaultValue("1")
-        @CommandLineValue{shortOpt="d", longOpt="difficulty", hasArg=true}
+        ^^@CommandLineValue{shortOpt="d", longOpt="difficulty", hasArg=true}^^
         private int difficulty;
-
-        // ...
-    }
-        </code></pre>
-    </section>
-
-    <section>
-        <h2>Env variables and<br/>system properties</h2>
-
-        <img src="img/toolbox/wrench.png" style="height: 400px;"/>
-    </section>
-
-    <section>
-        <h2>Env vars/system properties</h2>
-
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        // ...
-
-        @SystemPropertyValue("user.language")
-        private String language;
-
-        @EnvironmentVariableValue("PWD")
-        private String currentDirectory;
 
         // ...
     }
@@ -209,13 +183,38 @@
     {
         // ...
 
-        @PropertyValue("player.color")
+        ^^@PropertyValue("player.color")^^
         private int playerColor;
 
         @DefaultValue("1")
         @CommandLineValue({shortOpt="d", longOpt="difficulty", hasArg=true})
-        @PropertyValue("difficulty")
+        ^^@PropertyValue("difficulty")^^
         private int difficulty;
+
+        // ...
+    }
+        </code></pre>
+    </section>
+	
+    <section>
+        <h2>Env variables and<br/>system properties</h2>
+
+        <img src="img/toolbox/wrench.png" style="height: 400px;"/>
+    </section>
+
+    <section>
+        <h2>Env vars/system properties</h2>
+
+        <pre><code class="java" data-noescape>
+    public class Config
+    {
+        // ...
+
+        ^^@SystemPropertyValue("user.language")^^
+        private String language;
+
+        ^^@EnvironmentVariableValue("PWD")^^
+        private Path currentDirectory;
 
         // ...
     }
@@ -237,13 +236,13 @@
         // ...
 
         @EnvironmentVariableValue("PWD")
-        private Path currentDirectory;
+        private ^^Path^^ currentDirectory;
 
         @PropertyValue("player.color")
-        private Color playerColor;
+        private ^^Color^^ playerColor;
 
         @PropertyValue("cheats.active")
-        private Set&lt;Cheat&gt; activeCheats;
+        private ^^Set&lt;Cheat&gt;^^ activeCheats;
 
         // Setters and getters
     }
@@ -259,12 +258,12 @@
         // ...
 
         @PropertyValue("player.color")
-        @TypeTransformers({StringToColorTransformer.class})
+        ^^@TypeTransformers({StringToColorTransformer.class})^^
         private Color playerColor;
 
         // ...
 
-        public static class StringToColorTransformer
+        public static class ^^StringToColorTransformer^^
             extends TypeTransformer&lt;String, Color&gt; {
 
             @Override
@@ -284,16 +283,16 @@
     public class Config {
 
         @PropertyValue("cheats.active")
-        @TypeTransformers({StringToCheatTransformer.class})
+        ^^@TypeTransformers({StringToCheatTransformer.class})^^
         private Set&lt;Cheat&gt; cheats;
 
         // ...
 
-        public class StringToCheatTransformer
+        public class ^^StringToCheatTransformer^^
             extends TypeTransformer&lt;String, Cheat&gt; {
 
             @Override
-            public Cheat transform(String cheatText) {
+            public ^^Cheat^^ transform(String cheatText) {
                 return Cheat.valueOf(cheatText);
             }
         }
@@ -353,12 +352,12 @@
     {
         // ...
 
-        @Size(min = 2, max = 14)
+        ^^@Size(min = 2, max = 14)^^
         @DefaultValue("Player")
         @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
         private String characterName;
 		
-        @NotNull
+        ^^@NotNull^^
         @EnvironmentVariableValue("PWD")
         private Path currentDirectory;
 
@@ -382,7 +381,7 @@
         @EnvironmentVariableValue("PWD")
         private Path currentDirectory;
 			
-        @Validation
+        ^^@Validation^^
         private void validate() {
             //Do whatever we want...
         }
@@ -479,7 +478,7 @@
 
     <section>
         <h3>Value source extension &ndash; File content value</h3>
-		<li>Annotation</li>
+		<li>Custom Annotation</li>
 			 <pre><code class="java" data-noescape>
     @ValueExtractorAnnotation(DefaultValueProcessor.class)
     @Target(ElementType.FIELD)
@@ -493,7 +492,7 @@
 			 <pre><code class="java" data-noescape>
     public class DefaultValueProcessor implements ValueExtractorProcessor {
         public String getValue(Annotation annotation, ConfigBuilderFactory configBuilderFactory) {
-		    try {
+            try {
                 FileContentValue fileContentValue = (FileContentValue) annotation:
                 byte[] content = Files.readAllBytes(Paths.get(fileContentValue.value()));
                 return new String(content, fileContentValue.encoding());		

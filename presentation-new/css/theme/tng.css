@@ -210,7 +210,7 @@ pre.output {
     .reveal .slides section.not-printed {
         display: none !important; }
 
-    .fragment.highlight.focus {
+    .fragment.highlight {
        background-color: yellow !important;
     }
 }
