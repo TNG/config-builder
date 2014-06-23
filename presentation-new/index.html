@@ -102,8 +102,7 @@
 
         <pre><code class="java" data-noescape>    public Config loadConfig() {
         return ConfigBuilder.on(Config.class).build();
-    }
-        </code></pre>
+    }</code></pre>
     </section>
 
     <section>
@@ -262,7 +261,8 @@ public class Config
     <section>
         <h2>Transformer for Set&lt;Cheat&gt;</h2>
 
-        <pre><code class="java" data-noescape>public class Config {
+        <pre><code class="java" data-noescape>public class Config
+{
 
     @PropertyValue("cheats.active")
     ^^@TypeTransformers(StringToCheatTransformer.class)^^
@@ -270,7 +270,7 @@ public class Config
 
     // ...
 
-    public class ^^StringToCheatTransformer^^
+    public static class ^^StringToCheatTransformer^^
         extends TypeTransformer&lt;String, Cheat&gt; {
 
         @Override
@@ -306,7 +306,7 @@ public class Config
 
                         </ul>
                     </li>
-                    <li>Type transformers
+                    <li style="padding-top: 10px;">Type transformers
                         <ul class="no-burn">
                             <li>Primitive/Collection (integrated)</li>
                             <li>Custom transformers</li>
@@ -505,8 +505,8 @@ public class Config {
             <div id="toolbox-basic-features" style="margin-top: -400px;">
                 <ul class="no-burn">
 					<li>List of file basenames</li>
-					<li>File extension</li>
-                    <li>Suffixes
+					<li style="padding-top: 10px;">File extension</li>
+                    <li style="padding-top: 10px;">Suffixes
                         <ul class="no-burn">
                             <li>User name</li>
                             <li>Local host name</li>
@@ -515,7 +515,7 @@ public class Config {
 
                         </ul>
                     </li>
-                    <li>Search locations</li>
+                    <li style="padding-top: 10px;">Search locations</li>
                         <ul class="no-burn">
                             <li>Classpath</li>
                             <li>Home directory</li>
@@ -538,26 +538,33 @@ public class Config {
 
     <section>
         <h3>Value source extension &ndash; File content value</h3>
-		<li>Custom Annotation</li>
-			 <pre><code class="java" data-noescape>@ValueExtractorAnnotation(DefaultValueProcessor.class)
+        <ul>
+		<li>Custom Annotation
+			 <pre><code class="java" data-noescape style="width: 800px;">@ValueExtractorAnnotation(DefaultValueProcessor.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileContentValue {
     String value();
     String encoding() default "UTF-8";
 }</code></pre>
-	<li>Annotation Processor</li>
-			 <pre><code class="java" data-noescape>public class DefaultValueProcessor implements ValueExtractorProcessor {
-    public String getValue(Annotation annotation, ConfigBuilderFactory configBuilderFactory) {
+            </li>
+	<li>Annotation Processor
+			 <pre><code class="java" data-noescape style="width: 800px;">public class DefaultValueProcessor implements ValueExtractorProcessor {
+    public String getValue(Annotation annotation,
+                           ConfigBuilderFactory configBuilderFactory) {
         try {
-            FileContentValue fileContentValue = (FileContentValue) annotation:
-            byte[] content = Files.readAllBytes(Paths.get(fileContentValue.value()));
+            FileContentValue fileContentValue =
+                 (FileContentValue) annotation:
+            byte[] content = Files.readAllBytes(
+                 Paths.get(fileContentValue.value()));
             return new String(content, fileContentValue.encoding());
         } catch(IOException e) { e.printStackTrace(); }
     }
-}</code></pre>
+}</code></pre></li>
+            </ul>
     </section>
 	<section>
+        <h3>Custom Annotation Example</h3>
 			 <pre><code class="java" data-noescape>public class Config {
 
     @FileContentValue("/home/user/help.txt", encoding="ISO 8859-1")
