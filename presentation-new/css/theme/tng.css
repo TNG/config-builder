@@ -166,6 +166,7 @@ body {
 .reveal pre code {
   font-family: Droid Sans Mono, monospace;
   max-height: 700px;
+  padding: 20px;
   box-shadow: 0 0 10px black; }
 .reveal ul {
   list-style-type: square; }

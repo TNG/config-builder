@@ -60,31 +60,28 @@
     <section>
         <h2>Our config class</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        §§private String characterName;§§
+        <pre><code class="java" data-noescape>public class Config
+{
+    §§private String characterName;§§
 
-        §§private int difficulty;§§
+    §§private int difficulty;§§
 
-        §§private Color playerColor;§§
+    §§private Color playerColor;§§
 
-        §§private Set&lt;Cheat&gt; activeCheats;§§
+    §§private Set&lt;Cheat&gt; activeCheats;§§
 
-        §§private String language;§§
+    §§private String language;§§
 
-        §§private Path currentDirectory;§§
+    §§private Path currentDirectory;§§
 
-        §§// Setters and getters§§
-    }
-        </code></pre>
+    §§// Setters and getters§§
+}</code></pre>
     </section>
 
     <section>
         <h2>Typical architecture</h2>
 
-        <pre><code class="java" data-noescape>
-    public Config loadConfig() {
+        <pre><code class="java" data-noescape>    public Config loadConfig() {
         §§Config config = new Config();§§
 
         §§loadBaseConfig(config);§§
@@ -93,8 +90,7 @@
         §§// do other specific stuff§§
 
         §§return config;§§
-    }
-        </code></pre>
+    }</code></pre>
     </section>
 
     <section>
@@ -104,8 +100,7 @@
     <section>
         <h2>How about this?</h2>
 
-        <pre><code class="java" data-noescape>
-    public Config loadConfig() {
+        <pre><code class="java" data-noescape>    public Config loadConfig() {
         return ConfigBuilder.on(Config.class).build();
     }
         </code></pre>
@@ -131,18 +126,16 @@
     <section>
         <h2>Default values</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        ^^@DefaultValue("Player")^^
-        private String characterName;
+        <pre><code class="java" data-noescape>public class Config
+{
+    ^^@DefaultValue("Player")^^
+    private String characterName;
 
-        ^^@DefaultValue("1")^^
-        private int difficulty;
+    ^^@DefaultValue("1")^^
+    private int difficulty;
 
-        // ...
-    }
-        </code></pre>
+    // ...
+}</code></pre>
     </section>
 
     <section>
@@ -153,20 +146,18 @@
     <section>
         <h2>Command line values</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        @DefaultValue("Player")
-        ^^@CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}^^
-        private String characterName;
+        <pre><code class="java" data-noescape>public class Config
+{
+    @DefaultValue("Player")
+    ^^@CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)^^
+    private String characterName;
 
-        @DefaultValue("1")
-        ^^@CommandLineValue{shortOpt="d", longOpt="difficulty", hasArg=true}^^
-        private int difficulty;
+    @DefaultValue("1")
+    ^^@CommandLineValue(shortOpt="d", longOpt="difficulty", hasArg=true)^^
+    private int difficulty;
 
-        // ...
-    }
-        </code></pre>
+    // ...
+}</code></pre>
     </section>
 
     <section>
@@ -175,25 +166,23 @@
     </section>
 
     <section>
-        <h2>Our config class</h2>
+        <h2>Property values</h2>
 
-        <pre><code class="java" data-noescape>
-    @PropertiesFiles({"config", "test-config"})
-    public class Config
-    {
-        // ...
+        <pre><code class="java" data-noescape>^^@PropertiesFiles({"config", "test-config"})^^
+public class Config
+{
+    // ...
 
-        ^^@PropertyValue("player.color")^^
-        private int playerColor;
+    @DefaultValue("1")
+    @CommandLineValue(shortOpt="d", longOpt="difficulty", hasArg=true)
+    ^^@PropertyValue("difficulty")^^
+    private int difficulty;
 
-        @DefaultValue("1")
-        @CommandLineValue({shortOpt="d", longOpt="difficulty", hasArg=true})
-        ^^@PropertyValue("difficulty")^^
-        private int difficulty;
+    ^^@PropertyValue("player.color")^^
+    private int playerColor;
 
-        // ...
-    }
-        </code></pre>
+    // ...
+}</code></pre>
     </section>
 	
     <section>
@@ -205,20 +194,18 @@
     <section>
         <h2>Env vars/system properties</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        // ...
+        <pre><code class="java" data-noescape>public class Config
+{
+    // ...
 
-        ^^@SystemPropertyValue("user.language")^^
-        private String language;
+    ^^@SystemPropertyValue("user.language")^^
+    private String language;
 
-        ^^@EnvironmentVariableValue("PWD")^^
-        private Path currentDirectory;
+    ^^@EnvironmentVariableValue("PWD")^^
+    private Path currentDirectory;
 
-        // ...
-    }
-        </code></pre>
+    // ...
+}</code></pre>
     </section>
 
     <section>
@@ -230,74 +217,68 @@
     <section>
         <h2>Our config class</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        // ...
+        <pre><code class="java" data-noescape>public class Config
+{
+    // ...
 
-        @EnvironmentVariableValue("PWD")
-        private ^^Path^^ currentDirectory;
+    @PropertyValue("player.color")
+    private ^^Color^^ playerColor;
 
-        @PropertyValue("player.color")
-        private ^^Color^^ playerColor;
+    @PropertyValue("cheats.active")
+    private ^^Set&lt;Cheat&gt;^^ activeCheats;
 
-        @PropertyValue("cheats.active")
-        private ^^Set&lt;Cheat&gt;^^ activeCheats;
+    @EnvironmentVariableValue("PWD")
+    private ^^Path^^ currentDirectory;
 
-        // Setters and getters
-    }
-        </code></pre>
+    // Setters and getters
+}</code></pre>
     </section>
 
     <section>
         <h2>Transformer for Color</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        // ...
+        <pre><code class="java" data-noescape>public class Config
+{
+    // ...
 
-        @PropertyValue("player.color")
-        ^^@TypeTransformers({StringToColorTransformer.class})^^
-        private Color playerColor;
+    @PropertyValue("player.color")
+    ^^@TypeTransformers(StringToColorTransformer.class)^^
+    private Color playerColor;
 
-        // ...
+    // ...
 
-        public static class ^^StringToColorTransformer^^
-            extends TypeTransformer&lt;String, Color&gt; {
+    public static class ^^StringToColorTransformer^^
+        extends TypeTransformer&lt;String, Color&gt; {
 
-            @Override
-            public Color transform(String colorText) {
-                StyleSheet styleSheet = new StyleSheet();
-                return styleSheet.stringToColor(colorText);
-            }
+        @Override
+        public Color transform(String colorText) {
+            StyleSheet styleSheet = new StyleSheet();
+            return styleSheet.stringToColor(colorText);
         }
     }
-        </code></pre>
+}</code></pre>
     </section>
 
     <section>
         <h2>Transformer for Set&lt;Cheat&gt;</h2>
 
-        <pre><code class="java" data-noescape>
-    public class Config {
+        <pre><code class="java" data-noescape>public class Config {
 
-        @PropertyValue("cheats.active")
-        ^^@TypeTransformers({StringToCheatTransformer.class})^^
-        private Set&lt;Cheat&gt; cheats;
+    @PropertyValue("cheats.active")
+    ^^@TypeTransformers(StringToCheatTransformer.class)^^
+    private Set&lt;Cheat&gt; cheats;
 
-        // ...
+    // ...
 
-        public class ^^StringToCheatTransformer^^
-            extends TypeTransformer&lt;String, Cheat&gt; {
+    public class ^^StringToCheatTransformer^^
+        extends TypeTransformer&lt;String, Cheat&gt; {
 
-            @Override
-            public ^^Cheat^^ transform(String cheatText) {
-                return Cheat.valueOf(cheatText);
-            }
+        @Override
+        public Cheat transform(String cheatText) {
+            return Cheat.valueOf(cheatText);
         }
     }
-        </code></pre>
+}</code></pre>
     </section>
 
     <section>
@@ -335,9 +316,96 @@
                 </ul>
             </div>
         </div>
-
-
     </section>
+
+    <section class="only-in-print">
+        <h2>Final config class</h2>
+        <pre><code class="java" data-noescape="" style="font-size: 60%; line-height: 120%;">@PropertiesFiles({"config", "test-config"})
+public class Config
+{
+    @DefaultValue("Player")
+    @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
+    private String characterName;
+
+    @DefaultValue("1")
+    @CommandLineValue(shortOpt="d", longOpt="difficulty", hasArg=true)
+    @PropertyValue("difficulty")
+    private int difficulty;
+
+    @PropertyValue("player.color")
+    @TypeTransformers(StringToColorTransformer.class)
+    private Color playerColor;
+
+    @PropertyValue("cheats.active")
+    @TypeTransformers(StringToCheatTransformer.class)
+    private Set&lt;Cheat&gt; activeCheats;
+
+    @SystemPropertyValue("user.language")
+    private String language;
+
+    @EnvironmentVariableValue("PWD")
+    private Path currentDirectory;
+
+    public static class StringToColorTransformer extends TypeTransformer&lt;String, Color&gt; {
+        @Override
+        public Color transform(String colorText) {
+            StyleSheet styleSheet = new StyleSheet();
+            return styleSheet.stringToColor(colorText);
+        }
+    }
+
+    public class StringToCheatTransformer extends TypeTransformer&lt;String, Cheat&gt; {
+        @Override
+        public Cheat transform(String cheatText) {
+            return Cheat.valueOf(cheatText);
+        }
+    }
+
+    // Setters and getters
+}</code></pre>
+    </section>
+
+    <section class="only-in-print">
+        <h2>Example main class</h2>
+        <pre><code class="java" data-noescape="" style="line-height: 120%;">public class GameEntry {
+
+    private Config config;
+
+    public static void main(final String[] args) {
+
+        config = ConfigBuilder.on(Config.class)
+                              .withCommandLineArgs(args)
+                              .build();
+
+        // run game with config ...
+
+    }
+}</code></pre>
+    </section>
+
+
+    <section class="only-in-print">
+        <h2>Results so far</h2>
+
+        Contents of config.properties file:
+        <pre><code>player.color = red
+cheats.active = WALLHACK, GODMODE</code></pre>
+
+        Command line input:
+        <pre><code>&gt; cd /home/player/new_game
+&gt; ./new-game -d 10 -c winner</code></pre>
+
+        Resulting Config object:
+        <pre><code>config = {
+    characterName = "winner",
+    difficulty = 10,
+    playerColor = Color(255, 0, 0),
+    activeCheats = {Cheat.WALLHACK, Cheat.GODMODE},
+    language = "de_DE",
+    currentDirectory = Path("/home/player/new_game")
+}</code></pre>
+    </section>
+
 </section>
 <section data-title="Validation">
 
@@ -347,48 +415,44 @@
     </section>
     <section>
         <h3>JSR303</h3>
-	        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        // ...
+	        <pre><code class="java" data-noescape>public class Config
+{
+    // ...
 
-        ^^@Size(min = 2, max = 14)^^
-        @DefaultValue("Player")
-        @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
-        private String characterName;
-		
-        ^^@NotNull^^
-        @EnvironmentVariableValue("PWD")
-        private Path currentDirectory;
+    ^^@Size(min = 2, max = 14)^^
+    @DefaultValue("Player")
+    @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
+    private String characterName;
 
-        // Setters and getters
-    }
-	        </code></pre>
+    ^^@NotNull^^
+    @EnvironmentVariableValue("PWD")
+    private Path currentDirectory;
+
+    // Setters and getters
+}</code></pre>
     </section>
     <section>
         <h3>Validate method</h3>
-	        <pre><code class="java" data-noescape>
-    public class Config
-    {
-        // ...
+	        <pre><code class="java" data-noescape>public class Config
+{
+    // ...
 
-        @Size(min = 2, max = 14)
-        @DefaultValue("Player")
-        @CommandLineValue{shortOpt="c", longOpt="character-name", hasArg=true}
-        private String characterName;
-		
-        @NotNull
-        @EnvironmentVariableValue("PWD")
-        private Path currentDirectory;
-			
-        ^^@Validation^^
-        private void validate() {
-            //Do whatever we want...
-        }
+    @Size(min = 2, max = 14)
+    @DefaultValue("Player")
+    @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
+    private String characterName;
 
-        // Setters and getters
+    @NotNull
+    @EnvironmentVariableValue("PWD")
+    private Path currentDirectory;
+
+    ^^@Validation^^
+    private void validate() {
+        //Do whatever we want...
     }
-	        </code></pre>
+
+    // Setters and getters
+}</code></pre>
     </section>
 
 </section>
@@ -399,37 +463,33 @@
     </section>
     <section>
         <h3>File Names, Suffixes &amp; Extensions</h3>
-		 <pre><code class="java" data-noescape>
-    @PropertiesFiles({"globalconfig", "userconfig"})
-    @PropertySuffixes(extraSuffixes = {"tngtech","myname"}, hostNames = true)
-    @PropertyExtension("fileextension")
-    public class Config {
+		 <pre><code class="java" data-noescape>@PropertiesFiles({"globalconfig", "userconfig"})
+@PropertySuffixes(extraSuffixes = {"tngtech","myname"}, hostNames = true)
+@PropertyExtension("fileextension")
+public class Config {
 
-	    @PropertyValue("cheats.active")
-	    @TypeTransformers({StringToCheatTransformer.class})
-	    private Set&lt;Cheat&gt; cheats;
+    @PropertyValue("cheats.active")
+    @TypeTransformers(StringToCheatTransformer.class)
+    private Set&lt;Cheat&gt; cheats;
 
-	    // ...
-    }
-		</code></pre>
+    // ...
+}</code></pre>
     </section>
     <section>
         <h3>Locations</h3>
-		 <pre><code class="java" data-noescape>
-    @PropertyLocations(directories = {"/home/user"}, contextClassLoader = true)
-    @PropertiesFiles({"globalconfig", "userconfig"})
-    public class Config {
+		 <pre><code class="java" data-noescape>@PropertyLocations(directories = {"/home/user"}, contextClassLoader = true)
+@PropertiesFiles({"globalconfig", "userconfig"})
+public class Config {
 
-	    @PropertyValue("cheats.active")
-	    @TypeTransformers({StringToCheatTransformer.class})
-	    private Set&lt;Cheat&gt; cheats;
+    @PropertyValue("cheats.active")
+    @TypeTransformers(StringToCheatTransformer.class)
+    private Set&lt;Cheat&gt; cheats;
 
-	    // ...
-    }
-		</code></pre>
+    // ...
+}</code></pre>
     </section>
     <section>
-        <h2>Property Loader Configuration: Overview</h2>
+        <h2>Property Loader Overview</h2>
 
         <div class="animated-html" style="height: 600px;">
             <initial>
@@ -479,50 +539,36 @@
     <section>
         <h3>Value source extension &ndash; File content value</h3>
 		<li>Custom Annotation</li>
-			 <pre><code class="java" data-noescape>
-    @ValueExtractorAnnotation(DefaultValueProcessor.class)
-    @Target(ElementType.FIELD)
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface FileContentValue {
-        String value();
-        String encoding() default "UTF-8";
-    }
-			</code></pre>
+			 <pre><code class="java" data-noescape>@ValueExtractorAnnotation(DefaultValueProcessor.class)
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface FileContentValue {
+    String value();
+    String encoding() default "UTF-8";
+}</code></pre>
 	<li>Annotation Processor</li>
-			 <pre><code class="java" data-noescape>
-    public class DefaultValueProcessor implements ValueExtractorProcessor {
-        public String getValue(Annotation annotation, ConfigBuilderFactory configBuilderFactory) {
-            try {
-                FileContentValue fileContentValue = (FileContentValue) annotation:
-                byte[] content = Files.readAllBytes(Paths.get(fileContentValue.value()));
-                return new String(content, fileContentValue.encoding());		
-            } catch(IOException e) { e.printStackTrace(); }            
-        }
+			 <pre><code class="java" data-noescape>public class DefaultValueProcessor implements ValueExtractorProcessor {
+    public String getValue(Annotation annotation, ConfigBuilderFactory configBuilderFactory) {
+        try {
+            FileContentValue fileContentValue = (FileContentValue) annotation:
+            byte[] content = Files.readAllBytes(Paths.get(fileContentValue.value()));
+            return new String(content, fileContentValue.encoding());
+        } catch(IOException e) { e.printStackTrace(); }
     }
-			</code></pre>
+}</code></pre>
     </section>
 	<section>
-			 <pre><code class="java" data-noescape>
-    public class Config {
+			 <pre><code class="java" data-noescape>public class Config {
 
-        @FileContentValue("/home/user/help.txt", encoding="ISO 8859-1")
-        private String helptext;
+    @FileContentValue("/home/user/help.txt", encoding="ISO 8859-1")
+    private String helptext;
 
-	    // ...
-    }
-			</code></pre>
+    // ...
+}</code></pre>
 	</section>
 </section>
 
 <section>
-    <section class="not-printed">
-        <h2>This slide should not be printed</h2>
-    </section>
-
-    <section class="only-in-print">
-        <h2>This slide should not be shown in presentation mode</h2>
-    </section>
-
     <section>
         <h2>Default Value</h2>
         <pre><code id="viewer-1" class="viewer"
