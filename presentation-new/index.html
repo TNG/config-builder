@@ -401,7 +401,7 @@ cheats.active = WALLHACK, GODMODE</code></pre>
     difficulty = 10,
     playerColor = Color(255, 0, 0),
     activeCheats = {Cheat.WALLHACK, Cheat.GODMODE},
-    language = "de_DE",
+    language = "de",
     currentDirectory = Path("/home/player/new_game")
 }</code></pre>
     </section>
@@ -550,11 +550,10 @@ public @interface FileContentValue {
             </li>
 	<li>Annotation Processor
 			 <pre><code class="java" data-noescape style="width: 840px;">public class DefaultValueProcessor implements ValueExtractorProcessor {
-    public String getValue(Annotation annotation,
+    public String getValue(Annotation ann,
                            ConfigBuilderFactory configBuilderFactory) {
         try {
-            FileContentValue fileContentValue =
-                 (FileContentValue) annotation:
+            FileContentValue fileContentValue = (FileContentValue) ann;
             byte[] content = Files.readAllBytes(
                  Paths.get(fileContentValue.value()));
             return new String(content, fileContentValue.encoding());
@@ -567,12 +566,58 @@ public @interface FileContentValue {
         <h3>Custom Annotation Example</h3>
 			 <pre><code class="java" data-noescape>public class Config {
 
-    @FileContentValue("/home/user/help.txt", encoding="ISO 8859-1")
+    @FileContentValue("/home/user/help.txt", encoding="ISO-8859-1")
     private String helptext;
 
     // ...
 }</code></pre>
 	</section>
+</section>
+
+<section>
+
+    <section>
+        <h2>How to use ConfigBuilder?</h2>
+
+        Just add the Dependency!
+
+        For example with Maven:
+        <pre style="width: 550px;"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.tngtech.java&lt;/groupId&gt;
+    &lt;artifactId&gt;config-builder&lt;/artifactId&gt;
+    &lt;version&gt;1.3&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+    </section>
+
+    <section>
+        <h2>Requirements</h2>
+
+        <ul class="no-burn">
+            <li>Java 7</li>
+            <li>Java 6 support is planned</li>
+            <li style="padding-top: 10px;">
+                Libraries used:
+                <ul class="no-burn">
+                    <li>Property Loader</li>
+                    <li>Google Reflections</li>
+                    <li>Logging Abstraction via SLF4J</li>
+                    <li>Commons CLI</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Can I add features?</h2>
+
+        <p>ConfigBuilder and PropertyLoader are open source licensed under Apache 2.0</p>
+
+        <p>Feel free to fork them on GitHub</p>
+        <ul class="no-burn">
+            <li>https://github.com/TNG/config-builder</li>
+            <li>https://github.com/TNG/property-loader</li>
+        </ul>
+    </section>
 </section>
 
 <!--<section>
