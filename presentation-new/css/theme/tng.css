@@ -204,10 +204,16 @@ pre.output {
 
 /* apply .not-printed to elements that should not be displayed in hardcopy */
 @media print {
-  .not-printed {
-    visibility: hidden !important; }
+    .not-printed {
+        visibility: hidden !important; }
 
-  .reveal .slides section.not-printed {
-    display: none !important; } }
+    .reveal .slides section.not-printed {
+        display: none !important; }
+
+    .fragment.highlight.focus {
+       background-color: yellow !important;
+    }
+}
+
 .i18n {
-  display: none; }
+    display: none; }

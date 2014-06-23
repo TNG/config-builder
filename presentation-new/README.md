@@ -8,7 +8,7 @@ npm install
 # Start des HTML-Servers:
 
 ```
-node server.js
+grunt start
 ```
 
 # Start der Präsentation
@@ -16,7 +16,7 @@ node server.js
 Im Browser auf folgende URL gehen:
 
 ```
-http://localhost:3000
+http://localhost:8000
 ```
 
 # Java-Editor öffnen
@@ -24,5 +24,5 @@ http://localhost:3000
 Im Browser auf folgende URL gehen:
 
 ```
-http://localhost:3000/editor
+http://localhost:8000/editor
 ```
