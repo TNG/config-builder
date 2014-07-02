@@ -24,6 +24,41 @@
             data-execute="java/buildAndExecute.sh com.tngtech.test.defaultvalue.Config">
         Default values
     </option>
+    <option value="execute-command-line.sh"
+            data-language="bash"
+            data-execute="java/execute-command-line.sh">
+        Command line script
+    </option>
+    <option value="src/main/java/com/tngtech/test/commandlinevalue/Config.java"
+            data-language="java"
+            data-execute="java/execute-command-line.sh">
+        Command line values
+    </option>
+    <option value="src/main/resources/config.properties"
+            data-language="properties"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.propertyvalue.Config">
+        Properties file
+    </option>
+    <option value="src/main/java/com/tngtech/test/propertyvalue/Config.java"
+            data-language="java"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.propertyvalue.Config">
+        Property values
+    </option>
+    <option value="src/main/java/com/tngtech/test/envvars/Config.java"
+            data-language="java"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.envvars.Config">
+        Env and system property values
+    </option>
+    <option value="src/main/java/com/tngtech/test/colortransformer/Config.java"
+            data-language="java"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.colortransformer.Config">
+        Color transformer
+    </option>
+    <option value="src/main/java/com/tngtech/test/cheattransformer/Config.java"
+            data-language="java"
+            data-execute="java/buildAndExecute.sh com.tngtech.test.cheattransformer.Config">
+        Cheat transformer
+    </option>
 </select>
 <button id="execute">Execute</button>
 <div>
