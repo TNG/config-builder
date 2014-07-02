@@ -12,8 +12,7 @@ import java.awt.*;
 
 @PropertiesFiles("config")
 // shown
-public class Config
-{
+public class Config {
     // not shown
     public static void main(String[] args) {
         Config config = new ConfigBuilder<>(Config.class).build();
