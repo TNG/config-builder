@@ -61,8 +61,8 @@ socket.on('connection', function(client) {
 
     client.on('execute', function(data, callback) {
         console.log("Executing " + data.command);
-        childProcess.exec(data.command, function(error, stdout) {
-            console.log("Execution ended " + (error == null ? "successfully" : "with an error: " + error));
+            childProcess.exec(data.command, function(error, stdout) {
+                console.log("Execution ended " + (error == null ? "successfully" : "with an error: " + error));
             data = {fileName: data.fileName, output: error == null ? stdout : error.toString()};
 
             callback(data);
