@@ -25,7 +25,7 @@ public class Config
     // ...
 
     @Size(min = 2, max = 14)
-    @DefaultValue("Player")
+    @DefaultValue("GoD")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
 
@@ -34,11 +34,14 @@ public class Config
     private Path currentDirectory;
 
     // not shown
-    // @Validation
-    // private void validate() {
-           //Do whatever we want...
-    // }
-    // show
+    //@Validation
+    //private void validate() {
+    //       if(characterName.equalsIgnoreCase("God")) {
+    //           System.out.println("You can not name yourself God!");
+    //           throw new RuntimeException("hallo");
+    //       }
+    //}
+    // shown
     // Setters and getters
     // not shown
     public String getCharacterName() {
