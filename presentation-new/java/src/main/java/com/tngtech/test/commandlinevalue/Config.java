@@ -17,11 +17,15 @@ public class Config {
     // shown
 
     @DefaultValue("Player")
-    @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
+    //not shown
+    //@CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
+    //shown
     private String characterName;
 
     @DefaultValue("1")
-    @CommandLineValue(shortOpt="d", longOpt="difficulty", hasArg=true)
+    //not shown
+    //@CommandLineValue(shortOpt="d", longOpt="difficulty", hasArg=true)
+    //shown
     private int difficulty;
 
     // ...

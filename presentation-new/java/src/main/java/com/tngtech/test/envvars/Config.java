@@ -19,10 +19,14 @@ public class Config {
     // shown
     // ...
 
-    @SystemPropertyValue("user.language")
+    //not shown
+    //@SystemPropertyValue("user.language")
+    //shown
     private String language;
 
-    @EnvironmentVariableValue("PWD")
+    //not shown
+    //@EnvironmentVariableValue("PWD")
+    //shown
     private Path currentDirectory;
 
     // ...

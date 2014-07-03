@@ -10,7 +10,7 @@ import com.tngtech.test.common.JSONHelper;
 
 import java.util.Set;
 
-@PropertiesFiles("config")
+@PropertiesFiles("configcheat")
 // shown
 public class Config {
     // not shown
@@ -22,20 +22,22 @@ public class Config {
     // shown
 
     @PropertyValue("cheats.active")
-    @TypeTransformers({StringToCheatTransformer.class})
+    //not shown
+    //@TypeTransformers({StringToCheatTransformer.class})
+    //shown
     private Set<Cheat> cheats;
 
-    // ...
     // not shown
     public Set<Cheat> getCheats() {
         return cheats;
     }
     // shown
-
-    public class StringToCheatTransformer extends TypeTransformer<String, Cheat> {
-        @Override
-        public Cheat transform(String cheatText) {
-            return Cheat.valueOf(cheatText);
-        }
-    }
+    //not shown
+    //  public class StringToCheatTransformer extends TypeTransformer<String, Cheat> {
+    //    @Override
+    //    public Cheat transform(String cheatText) {
+    //        return Cheat.valueOf(cheatText);
+    //    }    
+    //}
+    //shown
 }

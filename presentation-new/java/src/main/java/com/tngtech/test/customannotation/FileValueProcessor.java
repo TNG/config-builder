@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class DefaultValueProcessor implements ValueExtractorProcessor {
+public class FileValueProcessor implements ValueExtractorProcessor {
     public String getValue(Annotation ann,
                            ConfigBuilderFactory configBuilderFactory) {
         try {

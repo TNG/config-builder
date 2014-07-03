@@ -79,7 +79,6 @@
           fileName: fileName
         }, function(data) {
           if (data.error == null) {
-            console.log(language);
             return $('#' + id).html(highlight.highlight(language, _this._getContent(data.content)).value);
           } else {
             return console.log("Error loading file: " + data.error);
