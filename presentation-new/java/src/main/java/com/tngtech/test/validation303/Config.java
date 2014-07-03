@@ -37,4 +37,14 @@ public class Config
     private Path currentDirectory;
 
     // Setters and getters
+
+    // not shown
+    public String getCharacterName() {
+        return characterName;
+    }
+
+    public Path getCurrentDirectory() {
+        return currentDirectory;
+    }
+    // shown
 }
