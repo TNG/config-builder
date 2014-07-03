@@ -6,17 +6,18 @@ import com.tngtech.configbuilder.annotation.propertyloaderconfiguration.Properti
 import com.tngtech.configbuilder.annotation.typetransformer.TypeTransformer;
 import com.tngtech.configbuilder.annotation.typetransformer.TypeTransformers;
 import com.tngtech.configbuilder.annotation.valueextractor.PropertyValue;
+import com.tngtech.test.common.JSONHelper;
 
 import javax.swing.text.html.StyleSheet;
 import java.awt.*;
 
-@PropertiesFiles("config")
+@PropertiesFiles("configcolor")
 // shown
 public class Config {
     // not shown
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Config config = new ConfigBuilder<>(Config.class).build();
-        System.out.println(config.getPlayerColor().toString());
+        JSONHelper.printJSON(config);
     }
     
     // shown
