@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.awt.*;
 import java.nio.file.Path;
 
 public class JSONHelper {
@@ -15,6 +16,7 @@ public class JSONHelper {
         SimpleModule simpleModule = new SimpleModule("SimpleModule", new Version(1, 0, 0, null));
 
         simpleModule.addSerializer(Path.class, new PathSerializer());
+        simpleModule.addSerializer(Color.class, new ColorSerializer());
         objectMapper.registerModule(simpleModule);
 
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
