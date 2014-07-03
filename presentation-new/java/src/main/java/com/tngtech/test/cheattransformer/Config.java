@@ -10,7 +10,7 @@ import com.tngtech.test.common.JSONHelper;
 
 import java.util.Set;
 
-@PropertiesFiles("config")
+@PropertiesFiles("configcheat")
 // shown
 public class Config {
     // not shown
