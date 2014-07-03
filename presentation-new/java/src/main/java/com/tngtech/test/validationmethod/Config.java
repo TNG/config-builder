@@ -38,6 +38,15 @@ public class Config
     // private void validate() {
            //Do whatever we want...
     // }
-    // shown
+    // show
     // Setters and getters
+    // not shown
+    public String getCharacterName() {
+        return characterName;
+    }
+
+    public Path getCurrentDirectory() {
+        return currentDirectory;
+    }
+    // shown
 }
