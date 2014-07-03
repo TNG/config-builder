@@ -684,7 +684,7 @@ public class Config {
         <h3>Value source extension &ndash; File content value</h3>
         <ul>
 		<li>Custom Annotation
-			 <pre><code class="java" data-noescape style="width: 840px;">^^@ValueExtractorAnnotation(FileValueProcessor.class)^^
+			 <pre><code class="java" data-noescape style="width: 840px;">@ValueExtractorAnnotation(FileValueProcessor.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileContentValue {
