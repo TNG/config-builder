@@ -26,13 +26,11 @@ public class Config {
     @TypeTransformers({StringToColorTransformer.class})
     private Color playerColor;
 
-    // ...
     // not shown
     public Color getPlayerColor() {
         return playerColor;
     }
     // shown
-
     public static class StringToColorTransformer extends TypeTransformer<String, Color> {
         @Override
         public Color transform(String colorText) {

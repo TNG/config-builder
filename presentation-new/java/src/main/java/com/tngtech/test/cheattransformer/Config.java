@@ -25,13 +25,11 @@ public class Config {
     @TypeTransformers({StringToCheatTransformer.class})
     private Set<Cheat> cheats;
 
-    // ...
     // not shown
     public Set<Cheat> getCheats() {
         return cheats;
     }
     // shown
-
     public class StringToCheatTransformer extends TypeTransformer<String, Cheat> {
         @Override
         public Cheat transform(String cheatText) {
