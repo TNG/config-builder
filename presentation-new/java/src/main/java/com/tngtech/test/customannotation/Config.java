@@ -20,7 +20,9 @@ public class Config
     // shown
     // ...
 
-    @FileContentValue(value="/tmp/help.txt", encoding="ISO-8859-1")
+    //not shown
+    //@FileContentValue(value="/tmp/help.txt", encoding="ISO-8859-1")
+    //shown
     private String helptext;
 
     // Setters and getters
