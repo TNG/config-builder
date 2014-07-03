@@ -698,16 +698,27 @@ public @interface FileContentValue {
 }</code></pre></li>
             </ul>
     </section>
-	<section>
+	<section class="only-in-print">
         <h3>Custom Annotation Example</h3>
 			 <pre><code class="java" data-noescape>public class Config {
 
-    ^^@FileContentValue("/home/user/help.txt", encoding="ISO-8859-1")^^
+    ^^@FileContentValue(value="/home/user/help.txt", encoding="ISO-8859-1")^^
     private String helptext;
 
     // ...
 }</code></pre>
 	</section>
+    <section class="not-printed">
+        <h3>Custom Annotation Example</h3>
+        <pre><code id="viewer-customannotation" class="viewer"
+                   data-file="java/src/main/java/com/tngtech/test/customannotation/Config.java"
+                   data-language="java" style="height: 350px;"
+                   data-noescape></code></pre>
+        <div class="output-section">
+            <p>Output:</p>
+            <pre class="output" data-file="java/src/main/java/com/tngtech/test/customannotation/Config.java"></pre>
+        </div>
+    </section>
 </section>
 
 <section>
