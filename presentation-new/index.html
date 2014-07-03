@@ -684,7 +684,7 @@ public class Config {
         <h3>Value source extension &ndash; File content value</h3>
         <ul>
 		<li>Custom Annotation
-			 <pre><code class="java" data-noescape style="width: 840px;">@ValueExtractorAnnotation(DefaultValueProcessor.class)
+			 <pre><code class="java" data-noescape style="width: 840px;">^^@ValueExtractorAnnotation(FileValueProcessor.class)^^
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileContentValue {
@@ -693,7 +693,7 @@ public @interface FileContentValue {
 }</code></pre>
             </li>
 	<li>Annotation Processor
-			 <pre><code class="java" data-noescape style="width: 840px;">public class DefaultValueProcessor implements ValueExtractorProcessor {
+			 <pre><code class="java" data-noescape style="width: 840px;">public class FileValueProcessor implements ValueExtractorProcessor {
     public String getValue(Annotation ann,
                            ConfigBuilderFactory configBuilderFactory) {
         try {
@@ -710,7 +710,7 @@ public @interface FileContentValue {
         <h3>Custom Annotation Example</h3>
 			 <pre><code class="java" data-noescape>public class Config {
 
-    ^^@FileContentValue(value="/home/user/help.txt", encoding="ISO-8859-1")^^
+    @FileContentValue(value="/home/user/help.txt", encoding="ISO-8859-1")
     private String helptext;
 
     // ...
