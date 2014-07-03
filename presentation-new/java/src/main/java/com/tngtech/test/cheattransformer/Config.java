@@ -22,7 +22,9 @@ public class Config {
     // shown
 
     @PropertyValue("cheats.active")
-    @TypeTransformers({StringToCheatTransformer.class})
+    //not shown
+    //@TypeTransformers({StringToCheatTransformer.class})
+    //shown
     private Set<Cheat> cheats;
 
     // not shown
@@ -30,10 +32,12 @@ public class Config {
         return cheats;
     }
     // shown
-    public class StringToCheatTransformer extends TypeTransformer<String, Cheat> {
-        @Override
-        public Cheat transform(String cheatText) {
-            return Cheat.valueOf(cheatText);
-        }
-    }
+    //not shown
+    //  public class StringToCheatTransformer extends TypeTransformer<String, Cheat> {
+    //    @Override
+    //    public Cheat transform(String cheatText) {
+    //        return Cheat.valueOf(cheatText);
+    //    }    
+    //}
+    //shown
 }

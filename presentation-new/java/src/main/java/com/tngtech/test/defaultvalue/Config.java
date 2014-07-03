@@ -15,9 +15,14 @@ public class Config {
 
     // shown
 
-    @DefaultValue("Wolverine")
+    //not shown
+    //@DefaultValue("Wolverine")
+    //shown
     private String characterName;
 
+    //not shown
+    //@DefaultValue("1")
+    //shown
     private int difficulty;
 
     // ...

@@ -21,10 +21,14 @@ public class Config {
 
     @DefaultValue("1")
     @CommandLineValue(shortOpt="d", longOpt="difficulty", hasArg=true)
-    @PropertyValue("difficulty")
+    //not shown
+    //@PropertyValue("difficulty")
+    //shown
     private int difficulty;
 
-    @PropertyValue("player.color")
+    //not shown
+    //@PropertyValue("player.color")
+    //shown
     private int playerColor;
     // not shown
     public int getDifficulty() {

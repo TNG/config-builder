@@ -23,7 +23,9 @@ public class Config {
     // shown
 
     @PropertyValue("player.color")
-    @TypeTransformers({StringToColorTransformer.class})
+    //not shown
+    //@TypeTransformers({StringToColorTransformer.class})
+    //shown
     private Color playerColor;
 
     // not shown
@@ -31,11 +33,13 @@ public class Config {
         return playerColor;
     }
     // shown
-    public static class StringToColorTransformer extends TypeTransformer<String, Color> {
-        @Override
-        public Color transform(String colorText) {
-            StyleSheet styleSheet = new StyleSheet();
-            return styleSheet.stringToColor(colorText);
-        }
-    }
+    //not shown
+    //public static class StringToColorTransformer extends TypeTransformer<String, Color> {
+    //    @Override
+    //    public Color transform(String colorText) {
+    //        StyleSheet styleSheet = new StyleSheet();
+    //        return styleSheet.stringToColor(colorText);
+    //    }
+    //}
+    //shown
 }
