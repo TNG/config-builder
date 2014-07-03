@@ -14,6 +14,7 @@ public class Config {
     }
 
     // shown
+
     @DefaultValue("Wolverine")
     private String characterName;
 

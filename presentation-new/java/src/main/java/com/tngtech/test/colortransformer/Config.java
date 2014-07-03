@@ -20,6 +20,7 @@ public class Config {
     }
     
     // shown
+
     @PropertyValue("player.color")
     @TypeTransformers({StringToColorTransformer.class})
     private Color playerColor;

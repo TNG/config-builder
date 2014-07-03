@@ -20,6 +20,7 @@ public class Config {
     }
 
     // shown
+
     @PropertyValue("cheats.active")
     @TypeTransformers({StringToCheatTransformer.class})
     private Set<Cheat> cheats;

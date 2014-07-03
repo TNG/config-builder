@@ -20,6 +20,7 @@ public class Config {
     }
 
     // shown
+
     @SystemPropertyValue("user.language")
     @TypeTransformers({StringToLocaleTransformer.class})
     private Locale language;

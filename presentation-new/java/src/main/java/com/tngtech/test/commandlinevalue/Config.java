@@ -15,6 +15,7 @@ public class Config {
     }
 
     // shown
+
     @DefaultValue("Player")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
