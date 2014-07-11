@@ -26,7 +26,7 @@ public class Config
     // not shown
     // @Size(min = 2, max = 14)
     // shown
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
 

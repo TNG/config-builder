@@ -25,7 +25,7 @@ public class Config
     // ...
 
     @Size(min = 2, max = 14)
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
 
@@ -36,9 +36,8 @@ public class Config
     // not shown
     //@Validation
     //private void validate() {
-    //       if(characterName.equalsIgnoreCase("God")) {
-    //           System.out.println("You can not name yourself God!");
-    //           throw new RuntimeException("hallo");
+    //       if("god".equalsIgnoreCase(characterName)) {
+    //           throw new RuntimeException("You can not name yourself God!");
     //       }
     //}
     // shown

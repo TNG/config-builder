@@ -140,7 +140,7 @@
 
         <pre><code class="java" data-noescape>public class Config
 {
-    ^^@DefaultValue("Player")^^
+    ^^@DefaultValue("Wolverine")^^
     private String characterName;
 
     ^^@DefaultValue("1")^^
@@ -173,7 +173,7 @@
 
         <pre><code class="java" data-noescape>public class Config
 {
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     ^^@CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)^^
     private String characterName;
 
@@ -366,13 +366,24 @@ public class Config
     <section class="not-printed">
         <h2>Transformer for Set&lt;Cheat&gt;</h2>
         <pre><code id="viewer-propertyfile3" class="viewer"
-                   data-file="java/src/main/resources/configcheat.properties"
-                   data-language="java" style="height: 40px;"
-                   data-noescape></code></pre>
+                   class="java" style="height: 40px;"
+                   data-noescape>cheats.active = GOD_MODE,WALLHACK</code></pre>
         <pre><code id="viewer-cheattransformer" class="viewer"
-                   data-file="java/src/main/java/com/tngtech/test/cheattransformer/Config.java"
-                   data-language="java" style="height: 330px;"
-                   data-noescape></code></pre>
+                   class="java" style="height: 330px;"
+                   data-noescape>public class Config {
+
+    @PropertyValue("cheats.active")
+    §§@TypeTransformers({StringToCheatTransformer.class})§§
+    private Set&lt;Cheat&gt; cheats;
+
+    §§public class StringToCheatTransformer extends TypeTransformer&lt;String, Cheat&gt
+    {
+        @Override
+        public Cheat transform(String cheatText) {
+            return Cheat.valueOf(cheatText);
+        }
+    }§§
+}</code></pre>
         <div class="output-section">
             <p>Output:</p>
             <pre class="output" style="height: 100px" data-file="java/src/main/resources/configcheat.properties"></pre>
@@ -384,16 +395,16 @@ public class Config
 
         <div class="animated-html" style="height: 600px;">
             <initial>
-                <state data-id="toolbox-basic-features" data-property="opacity" data-value="0"></state>
+                <state data-id="toolbox-basic-features-2" data-property="opacity" data-value="0"></state>
             </initial>
             <animation data-duration="500">
-                <animate data-id="toolbox-open" data-property="opacity" data-value="0"></animate>
-                <animate data-id="toolbox-basic-features" data-property="opacity" data-value="1"></animate>
+                <animate data-id="toolbox-open-2" data-property="opacity" data-value="0"></animate>
+                <animate data-id="toolbox-basic-features-2" data-property="opacity" data-value="1"></animate>
             </animation>
 
-            <img id="toolbox-open" src="img/toolbox/toolbox-open.png" style="height: 400px;"/>
+            <img id="toolbox-open-2" src="img/toolbox/toolbox-open.png" style="height: 400px;"/>
 
-            <div id="toolbox-basic-features" style="margin-top: -400px;">
+            <div id="toolbox-basic-features-2" style="margin-top: -400px;">
                 <ul class="no-burn">
                     <li>Value sources
                         <ul class="no-burn">
@@ -421,7 +432,7 @@ public class Config
         <pre><code class="java" data-noescape="" style="font-size: 60%; line-height: 120%;">@PropertiesFiles({"config", "test-config"})
 public class Config
 {
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
 
@@ -518,7 +529,7 @@ cheats.active = WALLHACK, GODMODE</code></pre>
     // ...
 
     ^^@Size(min = 2, max = 14)^^
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
 
@@ -547,7 +558,7 @@ cheats.active = WALLHACK, GODMODE</code></pre>
     // ...
 
     @Size(min = 2, max = 14)
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     @CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     private String characterName;
 
@@ -567,7 +578,7 @@ cheats.active = WALLHACK, GODMODE</code></pre>
         <h3>Validate method</h3>
         <pre><code id="viewer-validationmethod" class="viewer"
                    data-file="java/src/main/java/com/tngtech/test/validationmethod/Config.java"
-                   data-language="java" style="height: 350px;"
+                   data-language="java" style="height: 450px;"
                    data-noescape></code></pre>
         <div class="output-section">
             <p>Output:</p>
@@ -577,9 +588,23 @@ cheats.active = WALLHACK, GODMODE</code></pre>
 
 </section>
 <section data-title="Property-Loader">
-    <section>
+    <section class="not-printed">
         <h2>Property-Loader</h2>
         <img src="img/toolbox/sawblade.png" style="height: 400px;"/>
+    </section>
+    <section>
+        <h3>File Names, Suffixes &amp; Extensions</h3>
+		 <pre><code class="java" data-noescape>§§@PropertiesFiles({"config", "test-config"})§§
+§§@PropertySuffixes(extraSuffixes = {"tngtech","myname"}, hostNames = true)§§
+§§@PropertyExtension("fileextension")§§
+public class Config {
+
+    @PropertyValue("cheats.active")
+    @TypeTransformers(StringToCheatTransformer.class)
+    private Set&lt;Cheat&gt; cheats;
+
+    // ...
+}</code></pre>
     </section>
     <section class="only-in-print">
         <h3>File Names, Suffixes &amp; Extensions</h3>
@@ -596,17 +621,18 @@ public class Config {
 }</code></pre>
     </section>
     <section class="not-printed">
-        <h3>File Names, Suffixes &amp; Extensions</h3>
-        <pre><code id="viewer-propertyloader1" class="viewer"
-                   data-file="java/src/main/java/com/tngtech/test/propertyloader1/Config.java"
-                   data-language="java" style="height: 350px;"
-                   data-noescape></code></pre>
-        <div class="output-section">
-            <p>Output:</p>
-            <pre class="output" data-file="java/src/main/java/com/tngtech/test/propertyloader1/Config.java"></pre>
-        </div>
-    </section>
+        <h3>Locations</h3>
+		 <pre><code class="java" data-noescape>§§@PropertyLocations(directories = {"/home/user"}, fromClassLoader = true)§§
+@PropertiesFiles({"config", "test-config"})
+public class Config {
 
+    @PropertyValue("cheats.active")
+    @TypeTransformers(StringToCheatTransformer.class)
+    private Set&lt;Cheat&gt; cheats;
+
+    // ...
+}</code></pre>
+    </section>
     <section class="only-in-print">
         <h3>Locations</h3>
 		 <pre><code class="java" data-noescape>^^@PropertyLocations(directories = {"/home/user"}, fromClassLoader = true)^^
@@ -619,17 +645,6 @@ public class Config {
 
     // ...
 }</code></pre>
-    </section>
-    <section class="not-printed">
-        <h3>Locations</h3>
-        <pre><code id="viewer-propertyloader2" class="viewer"
-                   data-file="java/src/main/java/com/tngtech/test/propertyloader2/Config.java"
-                   data-language="java" style="height: 350px;"
-                   data-noescape></code></pre>
-        <div class="output-section">
-            <p>Output:</p>
-            <pre class="output" data-file="java/src/main/java/com/tngtech/test/propertyloader2/Config.java"></pre>
-        </div>
     </section>
     <section>
         <h2>Property Loader Overview</h2>
@@ -684,7 +699,7 @@ public class Config {
         <h3>Value source extension &ndash; File content value</h3>
         <ul>
 		<li>Custom Annotation
-			 <pre><code class="java" data-noescape style="width: 840px;">@ValueExtractorAnnotation(FileValueProcessor.class)
+			 <pre><code class="java" data-noescape style="width: 840px;">^@ValueExtractorAnnotation(FileValueProcessor.class)^
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileContentValue {

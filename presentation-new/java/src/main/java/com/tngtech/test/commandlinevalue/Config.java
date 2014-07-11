@@ -16,7 +16,7 @@ public class Config {
 
     // shown
 
-    @DefaultValue("Player")
+    @DefaultValue("Wolverine")
     //not shown
     //@CommandLineValue(shortOpt="c", longOpt="character-name", hasArg=true)
     //shown
