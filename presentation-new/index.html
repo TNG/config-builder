@@ -289,13 +289,13 @@ public class Config
     // ...
 
     @PropertyValue("player.color")
-    private ^^Color^^ playerColor;
+    private Color playerColor;
 
     @PropertyValue("cheats.active")
-    private ^^Set&lt;Cheat&gt;^^ activeCheats;
+    private Set&lt;Cheat&gt; activeCheats;
 
     @EnvironmentVariableValue("PWD")
-    private ^^Path^^ currentDirectory;
+    private Path currentDirectory;
 
     // Setters and getters
 }</code></pre>
@@ -673,8 +673,7 @@ public class Config {
 
                         </ul>
                     </li>
-                    <li style="padding-top: 10px;">Search locations</li>
-                    <li>
+                    <li style="padding-top: 10px;">Search locations
                         <ul class="no-burn">
                             <li>Classpath</li>
                             <li>Home directory</li>
@@ -699,7 +698,7 @@ public class Config {
         <h3>Value source extension &ndash; File content value</h3>
         <ul>
 		<li>Custom Annotation
-			 <pre><code class="java" data-noescape style="width: 840px;">^@ValueExtractorAnnotation(FileValueProcessor.class)^
+			 <pre><code class="java" data-noescape style="width: 840px;">@ValueExtractorAnnotation(FileValueProcessor.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileContentValue {
