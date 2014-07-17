@@ -13,7 +13,7 @@ import com.tngtech.test.common.JSONHelper;
 public class Config {
     // not shown
     public static void main(String[] args) throws Exception {
-        Config config = new ConfigBuilder<>(Config.class).build();
+        Config config = ConfigBuilder.on(Config.class).build();
         JSONHelper.printJSON(config);
     }
 

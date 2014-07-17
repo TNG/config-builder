@@ -9,7 +9,7 @@ public class Config {
 
     public static void main(String[] args) throws Exception {
     //not shown
-        //Config config = new ConfigBuilder<>(Config.class)
+        //Config config = ConfigBuilder.on(Config.class)
         //                    .withCommandLineArgs(args)
         //                    .build();
         //JSONHelper.printJSON(config);
