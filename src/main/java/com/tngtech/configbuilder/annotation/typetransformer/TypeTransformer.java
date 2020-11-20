@@ -39,12 +39,12 @@ public abstract class TypeTransformer<SourceClass, TargetClass> {
                 targetClass.isAssignableFrom(getTransformerTargetClass());
     }
 
-    protected Class<?> getTransformerSourceClass() {
+    private Class<?> getTransformerSourceClass() {
         Type[] genericTypes = determineTypeArguments();
         return genericsAndCastingHelper.castTypeToClass(genericTypes[0]);
     }
 
-    protected Class<?> getTransformerTargetClass() {
+    private Class<?> getTransformerTargetClass() {
         Type[] genericTypes = determineTypeArguments();
         return genericsAndCastingHelper.castTypeToClass(genericTypes[1]);
     }

@@ -51,6 +51,10 @@ public class FieldValueTransformer {
         for(Class<? extends TypeTransformer> transformerClass : getAllTransformers(field)) {
             availableTransformers.add(configBuilderFactory.getInstance(transformerClass));
         }
+        genericsAndCastingHelper.getEnumTypeOrParameterIfApplicable(field)
+                .map(StringToEnumTypeTransformer::new)
+                .ifPresent(availableTransformers::add);
+
         additionalOptions = field.isAnnotationPresent(Separator.class)? new Object[]{field.getAnnotation(Separator.class).value()} : new Object[]{","};
     }
 

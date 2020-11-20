@@ -9,6 +9,11 @@ public class StringToEnumTypeTransformer<E extends Enum<E>> extends TypeTransfor
     }
 
     @Override
+    public boolean isMatching(Class<?> sourceClass, Class<?> targetClass) {
+        return sourceClass.equals(String.class) && targetClass.equals(enumClass);
+    }
+
+    @Override
     public E transform(final String value) {
         return E.valueOf(enumClass, value.trim().replace(' ', '_').toUpperCase());
     }

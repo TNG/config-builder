@@ -95,7 +95,7 @@ This order can be customized, see [§5 (Change the order in which annotations ar
 Fields don't have to be Strings. You can configure collection fields or even any type you wish (or a collection of that type).
 
 Some simple transformers are included and used by default, e.g. a String will automatically be converted to an integer, a
-boolean value or even a collection as needed.
+boolean value, an enum value, or even a collection as needed.
 
 If you need more complex transformers, you can also implement your own by extending the `TypeTransformer` class, and specifying them in the `@TypeTransformers` annotation.
 

@@ -2,10 +2,12 @@ package com.tngtech.configbuilder.util;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public class GenericsAndCastingHelper {
 
@@ -59,5 +61,20 @@ public class GenericsAndCastingHelper {
 
     public boolean isPrimitiveOrWrapper(Class targetClass) {
         return primitiveToWrapperMapping.containsKey(targetClass) || primitiveToWrapperMapping.containsValue(targetClass);
+    }
+
+    public <E extends Enum<E>> Optional<Class<E>> getEnumTypeOrParameterIfApplicable(Field field) {
+        if (field.getType().isEnum()) {
+            return Optional.of((Class<E>) field.getType());
+        }
+
+        if (!Collection.class.isAssignableFrom(field.getType())) {
+            return Optional.empty();
+        }
+
+        Type collectionParameterType = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+        return collectionParameterType instanceof Class && ((Class<?>) collectionParameterType).isEnum()
+               ? Optional.of((Class<E>) collectionParameterType)
+               : Optional.empty();
     }
 }

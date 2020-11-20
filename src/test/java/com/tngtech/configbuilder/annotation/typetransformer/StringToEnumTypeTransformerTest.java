@@ -51,6 +51,5 @@ public class StringToEnumTypeTransformerTest {
     public void testIsMatching() {
         assertThat(transformer.isMatching(String.class, TestEnum.class)).isTrue();
         assertThat(transformer.isMatching(String.class, Integer.class)).isFalse();
-        assertThat(transformer.isMatching(String.class, Enum.class)).isTrue();
     }
 }
