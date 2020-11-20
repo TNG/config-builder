@@ -1,11 +1,13 @@
 package com.tngtech.configbuilder.util;
 
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValue;
+import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValueDescriptor;
 import com.tngtech.configbuilder.configuration.ErrorMessageSetup;
 import com.tngtech.configbuilder.exception.ConfigBuilderException;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +15,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.lang.reflect.Field;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import static com.google.common.collect.Sets.newHashSet;
+import static java.util.Comparator.comparing;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -26,10 +26,21 @@ import static org.mockito.Mockito.*;
 public class CommandLineHelperTest {
 
     private static class TestConfig {
+
         @CommandLineValue(shortOpt = "u", longOpt = "user", required = true)
         public String aString;
         @CommandLineValue(shortOpt = "v", longOpt = "vir", required = false)
         public String anotherString;
+
+        @CommandLineValueDescriptor
+        private static String commandLineValueDescription(String longOpt) {
+            switch (longOpt) {
+                case "vir":
+                    return "some description string";
+                default:
+                    return "";
+            }
+        }
     }
 
     private CommandLineHelper commandLineHelper;
@@ -44,19 +55,15 @@ public class CommandLineHelperTest {
     @Mock
     private ConfigBuilderFactory configBuilderFactory;
     @Mock
-    private AnnotationHelper annotationHelper;
-    @Mock
     private ErrorMessageSetup errorMessageSetup;
 
     @Before
     public void setUp() throws Exception {
-        when(configBuilderFactory.getInstance(AnnotationHelper.class)).thenReturn(annotationHelper);
+        when(configBuilderFactory.getInstance(AnnotationHelper.class)).thenReturn(new AnnotationHelper());
         when(configBuilderFactory.getInstance(ErrorMessageSetup.class)).thenReturn(errorMessageSetup);
 
         commandLineHelper = new CommandLineHelper(configBuilderFactory);
 
-        Set<Field> fields = newHashSet(TestConfig.class.getDeclaredFields());
-        when(annotationHelper.getFieldsAnnotatedWith(TestConfig.class, CommandLineValue.class)).thenReturn(fields);
         when(parser.parse(options, args)).thenReturn(commandLine);
     }
 
@@ -68,11 +75,11 @@ public class CommandLineHelperTest {
         assertThat(commandLineHelper.getCommandLine(TestConfig.class, args)).isSameAs(commandLine);
         verify(options, times(2)).addOption(captor.capture());
         verify(parser).parse(options, args);
-        List<Option> options = captor.getAllValues();
 
-        assertThat(options).hasSize(2);
+        List<Option> sortedOptions = new ArrayList<>(captor.getAllValues());
+        sortedOptions.sort(comparing(Option::getLongOpt));
 
-        final ImmutableList<Option> sortedOptions = FluentIterable.from(options).toSortedList((o1, o2) -> o1.getLongOpt().compareTo(o2.getLongOpt()));
+        assertThat(sortedOptions).hasSize(2);
 
         assertThat(sortedOptions.get(0).getLongOpt()).isEqualTo("user");
         assertThat(sortedOptions.get(0).getOpt()).isEqualTo("u");
@@ -98,5 +105,6 @@ public class CommandLineHelperTest {
         assertThat(commandLineHelper.getOptions(TestConfig.class)).isEqualTo(options1);
         assertThat(options1.getOption("user").getLongOpt()).isEqualTo("user");
         assertThat(options1.getOption("vir").getOpt()).isEqualTo("v");
+        assertThat(options1.getOption("vir").getDescription()).isEqualTo("some description string");
     }
 }

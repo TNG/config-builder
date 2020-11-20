@@ -1,13 +1,19 @@
 package com.tngtech.configbuilder.util;
 
 import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValue;
+import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValueDescriptor;
 import com.tngtech.configbuilder.configuration.ErrorMessageSetup;
 import com.tngtech.configbuilder.exception.ConfigBuilderException;
+import com.tngtech.configbuilder.exception.InvalidDescriptionMethodException;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Set;
+
+import static com.google.common.collect.Iterables.getOnlyElement;
 
 public class CommandLineHelper {
 
@@ -32,25 +38,42 @@ public class CommandLineHelper {
     public Options getOptions(Class configClass) {
         Options options = configBuilderFactory.createInstance(Options.class);
         for (Field field : annotationHelper.getFieldsAnnotatedWith(configClass, CommandLineValue.class)) {
-            if (field.isSynthetic()) {
-                continue;
+            if (!field.isSynthetic()) {
+                options.addOption(getOption(field, configClass));
             }
-            options.addOption(getOption(field));
         }
         return options;
     }
 
-    @SuppressWarnings("AccessStaticViaInstance")
-    private Option getOption(Field field) {
+    private Option getOption(Field field, Class configClass) {
         CommandLineValue commandLineValue = field.getAnnotation(CommandLineValue.class);
         log.debug("adding command line option {} for field {}", commandLineValue.shortOpt(), field.getName());
         return Option.builder(commandLineValue.shortOpt())
                 .longOpt(commandLineValue.longOpt())
                 .hasArg()
                 .required(commandLineValue.required())
-                .desc(commandLineValue.description())
+                .desc(extractDescriptionString(commandLineValue, configClass))
                 .hasArg(commandLineValue.hasArg())
                 .build();
+    }
+
+    private String extractDescriptionString(CommandLineValue commandLineValue, Class configClass) {
+        if (!commandLineValue.description().isEmpty()) {
+            return commandLineValue.description();
+        }
+
+        Set<Method> descriptorMethods = annotationHelper.getMethodsAnnotatedWith(configClass, CommandLineValueDescriptor.class);
+        if (descriptorMethods.isEmpty()) {
+            return "";
+        }
+
+        try {
+            Method descriptorMethod = getOnlyElement(descriptorMethods);
+            descriptorMethod.setAccessible(true);
+            return descriptorMethod.invoke(null, commandLineValue.longOpt()).toString();
+        } catch (Exception e) {
+            throw new ConfigBuilderException(errorMessageSetup.getErrorMessage(InvalidDescriptionMethodException.class), e);
+        }
     }
 
     private CommandLine parseCommandLine(String[] args, Options options) {
