@@ -170,7 +170,7 @@ public class FieldValueTransformerComponentTest {
     @Test
     public void testTransformingStringToEnumSet() {
         Object actualResult = fieldValueTransformer.transformFieldValue(enumSetField, "BAR, FOO");
-        assertThat(actualResult).isEqualTo(EnumSet.allOf(TestEnum.class));
+        assertThat(actualResult).isEqualTo(EnumSet.of(BAR, FOO));
     }
 
     @Test
