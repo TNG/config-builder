@@ -36,6 +36,8 @@ public class FieldValueTransformerTest {
     @Mock
     private GenericsAndCastingHelper genericsAndCastingHelper;
     @Mock
+    private EnumTypeExtractor enumTypeExtractor;
+    @Mock
     private CollectionToArrayListTransformer collectionToArrayListTransformer;
     @Mock
     private CharacterSeparatedStringToStringListTransformer characterSeparatedStringToStringListTransformer;
@@ -59,6 +61,7 @@ public class FieldValueTransformerTest {
     public void setUp() throws Exception {
         when(configBuilderFactory.getInstance(ErrorMessageSetup.class)).thenReturn(errorMessageSetup);
         when(configBuilderFactory.getInstance(GenericsAndCastingHelper.class)).thenReturn(genericsAndCastingHelper);
+        when(configBuilderFactory.getInstance(EnumTypeExtractor.class)).thenReturn(enumTypeExtractor);
 
         fieldValueTransformer = new FieldValueTransformer(configBuilderFactory);
         field = this.getClass().getDeclaredField("testField");

@@ -20,6 +20,7 @@ public class FieldValueTransformer {
     private final ConfigBuilderFactory configBuilderFactory;
     private final ErrorMessageSetup errorMessageSetup;
     private final GenericsAndCastingHelper genericsAndCastingHelper;
+    private final EnumTypeExtractor enumTypeExtractor;
     private Object[] additionalOptions;
 
     //Order is important: Prefer List over Set if both apply!
@@ -38,6 +39,7 @@ public class FieldValueTransformer {
         this.configBuilderFactory = configBuilderFactory;
         this.errorMessageSetup = configBuilderFactory.getInstance(ErrorMessageSetup.class);
         this.genericsAndCastingHelper = configBuilderFactory.getInstance(GenericsAndCastingHelper.class);
+        this.enumTypeExtractor = configBuilderFactory.getInstance(EnumTypeExtractor.class);
     }
 
     public Object transformFieldValue(Field field, Object sourceValue) {
@@ -51,9 +53,9 @@ public class FieldValueTransformer {
         for(Class<? extends TypeTransformer> transformerClass : getAllTransformers(field)) {
             availableTransformers.add(configBuilderFactory.getInstance(transformerClass));
         }
-        genericsAndCastingHelper.getEnumTypeOrParameterIfApplicable(field)
-                .map(StringToEnumTypeTransformer::new)
-                .ifPresent(availableTransformers::add);
+        enumTypeExtractor.getEnumTypesRelevantFor(field.getGenericType())
+                .map(enumClass -> new StringToEnumTypeTransformer(enumClass))
+                .forEach(availableTransformers::add);
 
         additionalOptions = field.isAnnotationPresent(Separator.class)? new Object[]{field.getAnnotation(Separator.class).value()} : new Object[]{","};
     }

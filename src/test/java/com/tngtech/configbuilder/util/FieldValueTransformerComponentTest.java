@@ -77,6 +77,7 @@ public class FieldValueTransformerComponentTest {
     public void setUp() throws Exception {
         when(configBuilderFactory.getInstance(ErrorMessageSetup.class)).thenReturn(errorMessageSetup);
         when(configBuilderFactory.getInstance(GenericsAndCastingHelper.class)).thenReturn(new GenericsAndCastingHelper());
+        when(configBuilderFactory.getInstance(EnumTypeExtractor.class)).thenReturn(new EnumTypeExtractor());
 
         when(configBuilderFactory.getInstance(CharacterSeparatedStringToStringListTransformer.class)).thenReturn(new CharacterSeparatedStringToStringListTransformer());
         when(configBuilderFactory.getInstance(CharacterSeparatedStringToStringSetTransformer.class)).thenReturn(new CharacterSeparatedStringToStringSetTransformer());
