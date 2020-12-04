@@ -27,16 +27,16 @@ public class CommandLineHelperTest {
 
     private static class TestConfig {
 
-        @CommandLineValue(shortOpt = "u", longOpt = "user", required = true)
+        @CommandLineValue(shortOpt = "u", longOpt = "user", required = true, description = "some static description string")
         public String aString;
         @CommandLineValue(shortOpt = "v", longOpt = "vir", required = false)
         public String anotherString;
 
         @CommandLineValueDescriptor
-        private static String commandLineValueDescription(String longOpt) {
+        private static String description(String longOpt) {
             switch (longOpt) {
                 case "vir":
-                    return "some description string";
+                    return "some dynamically generated description";
                 default:
                     return "";
             }
@@ -104,7 +104,8 @@ public class CommandLineHelperTest {
         when(configBuilderFactory.createInstance(Options.class)).thenReturn(options1);
         assertThat(commandLineHelper.getOptions(TestConfig.class)).isEqualTo(options1);
         assertThat(options1.getOption("user").getLongOpt()).isEqualTo("user");
+        assertThat(options1.getOption("user").getDescription()).isEqualTo("some static description string");
         assertThat(options1.getOption("vir").getOpt()).isEqualTo("v");
-        assertThat(options1.getOption("vir").getDescription()).isEqualTo("some description string");
+        assertThat(options1.getOption("vir").getDescription()).isEqualTo("some dynamically generated description");
     }
 }
