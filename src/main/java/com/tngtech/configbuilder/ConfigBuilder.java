@@ -12,7 +12,6 @@ import com.tngtech.propertyloader.impl.DefaultPropertyLocationContainer;
 import com.tngtech.propertyloader.impl.DefaultPropertySuffixContainer;
 import com.tngtech.propertyloader.impl.interfaces.PropertyLoaderFilter;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +60,6 @@ public class ConfigBuilder<T> {
     private final ConstructionHelper<T> constructionHelper;
 
     private Class<T> configClass;
-    private Options commandLineOptions;
     private PropertyLoader propertyLoader;
     private Properties additionalProperties;
     private String[] commandLineArgs = {};
@@ -77,8 +75,7 @@ public class ConfigBuilder<T> {
         this.constructionHelper = configBuilderFactory.getInstance(ConstructionHelper.class);
         this.additionalProperties = configBuilderFactory.createInstance(Properties.class);
 
-        propertyLoader = configBuilderFactory.getInstance(PropertyLoaderConfigurator.class).configurePropertyLoader(configClass);
-        commandLineOptions = commandLineHelper.getOptions(configClass);
+        this.propertyLoader = configBuilderFactory.getInstance(PropertyLoaderConfigurator.class).configurePropertyLoader(configClass);
     }
 
     /**
@@ -241,9 +238,10 @@ public class ConfigBuilder<T> {
      * Prints a help message for all command line options that are configured in the config class.
      */
     public void printCommandLineHelp() {
+        initializeErrorMessageSetup(propertyLoader);
         HelpFormatter formatter = new HelpFormatter();
         formatter.setSyntaxPrefix("Command Line Options for class " + configClass.getSimpleName() + ":");
-        formatter.printHelp(" ", commandLineOptions);
+        formatter.printHelp(" ", commandLineHelper.getOptions(configClass));
     }
 
     /**

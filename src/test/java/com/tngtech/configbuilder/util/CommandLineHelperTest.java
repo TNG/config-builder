@@ -3,7 +3,6 @@ package com.tngtech.configbuilder.util;
 import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValue;
 import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValueDescriptor;
 import com.tngtech.configbuilder.configuration.ErrorMessageSetup;
-import com.tngtech.configbuilder.exception.ConfigBuilderException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
@@ -88,14 +87,6 @@ public class CommandLineHelperTest {
         assertThat(sortedOptions.get(1).getLongOpt()).isEqualTo("vir");
         assertThat(sortedOptions.get(1).getOpt()).isEqualTo("v");
         assertThat(sortedOptions.get(1).isRequired()).isEqualTo(false);
-    }
-
-    @Test(expected = ConfigBuilderException.class)
-    public void testGetCommandLineThrowsException() {
-        when(configBuilderFactory.createInstance(DefaultParser.class)).thenReturn(new DefaultParser());
-        when(configBuilderFactory.createInstance(Options.class)).thenReturn(new Options());
-        args = new String[]{"nd", "notDefined"};
-        commandLineHelper.getCommandLine(TestConfig.class, args);
     }
 
     @Test
