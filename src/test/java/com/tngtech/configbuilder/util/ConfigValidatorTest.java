@@ -9,9 +9,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.Validator;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;

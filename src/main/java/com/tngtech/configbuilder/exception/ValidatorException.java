@@ -2,7 +2,7 @@ package com.tngtech.configbuilder.exception;
 
 import com.google.common.collect.Sets;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 import java.util.Set;
 
 public class ValidatorException extends RuntimeException {
