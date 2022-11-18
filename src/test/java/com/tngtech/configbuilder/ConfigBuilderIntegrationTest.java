@@ -6,7 +6,7 @@ import com.tngtech.configbuilder.testutil.SystemOutRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
