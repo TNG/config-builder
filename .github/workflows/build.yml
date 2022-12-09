@@ -17,7 +17,7 @@ jobs:
           distribution: zulu
           java-version: ${{matrix.java-version}}
       - name: Run tests
-        run: mvn -e test
+        run: mvn --batch-mode --no-transfer-progress -e test
 
   coverage:
     needs: test
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Create code coverage report
-        run: mvn -e test jacoco:report
+        run: mvn --batch-mode --no-transfer-progress -e test jacoco:report
       - name: Upload code coverage report
         uses: codecov/codecov-action@v3
         with:
@@ -40,4 +40,4 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v3
         - name: Check dependencies
-          run: mvn -e dependency-check:check
+          run: mvn --batch-mode --no-transfer-progress -e dependency-check:check
