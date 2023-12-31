@@ -81,7 +81,7 @@ public class ConfigBuilderIntegrationTest {
     @Test
     public void testValidation(){
         ConfigBuilder<ConfigWithNotNullValidation> configBuilder = new ConfigBuilder<>(ConfigWithNotNullValidation.class);
-        assertThatThrownBy(configBuilder::build)
+        assertThatThrownBy(() -> configBuilder.build())
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageContaining("must not be null");
     }
