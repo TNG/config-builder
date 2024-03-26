@@ -90,7 +90,7 @@
         <dependency-check-maven.version>9.0.10</dependency-check-maven.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
-        <maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.2.2</maven-gpg-plugin.version>
     </properties>
 
     <build>
