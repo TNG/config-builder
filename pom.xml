@@ -89,7 +89,7 @@
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <dependency-check-maven.version>11.1.1</dependency-check-maven.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     </properties>
 
