@@ -10,7 +10,7 @@ jobs:
         java-version: [8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Java ${{matrix.java-version}}
         uses: actions/setup-java@v4
         with:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Create code coverage report
         run: ./mvnw --batch-mode --no-transfer-progress -e test jacoco:report
       - name: Upload code coverage report
@@ -38,6 +38,6 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
-          uses: actions/checkout@v4
+          uses: actions/checkout@v5
         - name: Check dependencies
           run: ./mvnw --batch-mode --no-transfer-progress -e dependency-check:check -DnvdApiKey='${{ secrets.NVD_API_KEY }}'
