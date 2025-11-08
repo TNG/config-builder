@@ -82,7 +82,7 @@
         <mockito-junit-jupiter.version>4.11.0</mockito-junit-jupiter.version>
 
         <!-- plugins-->
-        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+        <maven-release-plugin.version>3.2.0</maven-release-plugin.version>
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
