@@ -71,7 +71,7 @@
         <!-- dependencies-->
         <commons-cli.version>1.11.0</commons-cli.version>
         <guava.version>33.5.0-jre</guava.version>
-        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+        <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
         <jakarta-el.version>3.0.4</jakarta-el.version>
         <property-loader.version>1.5.1</property-loader.version>
         <reflections.version>0.10.2</reflections.version>
