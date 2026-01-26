@@ -33,26 +33,13 @@
 
     <developers>
         <developer>
-            <name>Matthias Bollwein</name>
-            <organization>TNG Technology Consulting</organization>
-        </developer>
-        <developer>
             <name>Thomas Endres</name>
             <email>thomas.endres@tngtech.com</email>
             <organization>TNG Technology Consulting</organization>
         </developer>
         <developer>
-            <name>Andreas Würl</name>
-            <organization>TNG Technology Consulting</organization>
-        </developer>
-        <developer>
             <name>Manfred Hanke</name>
             <email>manfred.hanke@tngtech.com</email>
-            <organization>TNG Technology Consulting</organization>
-        </developer>
-        <developer>
-            <name>Jan Thiart</name>
-            <email>jan.thiart@tngtech.com</email>
             <organization>TNG Technology Consulting</organization>
         </developer>
     </developers>
