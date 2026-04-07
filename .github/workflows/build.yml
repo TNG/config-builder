@@ -11,13 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Set up Java ${{matrix.java-version}}
-        uses: actions/setup-java@v5
-        with:
-          distribution: zulu
-          java-version: ${{matrix.java-version}}
       - name: Run tests
-        run: ./mvnw --batch-mode --no-transfer-progress -e test
+        run: ./gradlew check -PjavaLanguageVersion=${{matrix.java-version}}
 
   coverage:
     needs: test
@@ -26,11 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Create code coverage report
-        run: ./mvnw --batch-mode --no-transfer-progress -e test jacoco:report
+        run: ./gradlew jacocoTestReport
       - name: Upload code coverage report
         uses: codecov/codecov-action@v6
         with:
-          files: target/site/jacoco/jacoco.xml
+          files: build/reports/jacoco/test/jacocoTestReport.xml
           name: codecov
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -41,4 +36,8 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v6
         - name: Check dependencies
-          run: ./mvnw --batch-mode --no-transfer-progress -e dependency-check:check -DnvdApiKey='${{ secrets.NVD_API_KEY }}' -DossIndexUsername='${{ secrets.OSSINDEX_USERNAME }}' -DossIndexPassword='${{ secrets.OSSINDEX_TOKEN }}'
+          run: |
+            ./gradlew dependencyCheckAnalyze \
+              -Dorg.gradle.jvmargs='-Xmx4g' \
+              -PnvdApiKey='${{ secrets.NVD_API_KEY }}' \
+              -PossindexUsername='${{ secrets.OSSINDEX_USERNAME }}' -PossindexPassword='${{ secrets.OSSINDEX_TOKEN }}'

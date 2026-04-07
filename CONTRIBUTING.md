@@ -9,7 +9,7 @@ We love pull requests. Here is a quick guide:
 1. Fork the repo.
 2. Create a new branch from `master`.
 3. Add your change together with necessary tests.
-4. Run `mvn clean verify` and ensure all tests are passing.
+4. Run `./gradlew clean build` and ensure all tests are passing.
 5. Commit with a DCO sign-off message (see next section) and push to your fork/branch.
 6. Create a pull request.
 

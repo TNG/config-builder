@@ -1,0 +1,105 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'org.owasp.dependencycheck' version '12.2.0'
+}
+
+group = 'com.tngtech.java'
+version = '1.8.2-SNAPSHOT'
+
+description = 'The Config Builder creates fully configured instances of config classes, using values from various sources like properties files, command line arguments etc.'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.hasProperty('javaLanguageVersion') ? project.property('javaLanguageVersion') : 8)
+    }
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    withJavadocJar()
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'commons-cli:commons-cli:1.11.0'
+    implementation 'com.google.guava:guava:33.5.0-jre'
+    implementation 'org.hibernate.validator:hibernate-validator:6.2.5.Final'
+    implementation 'org.glassfish:jakarta.el:3.0.4'
+    implementation 'com.tngtech.java:property-loader:1.5.1'
+    implementation 'org.reflections:reflections:0.10.2'
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+
+    testImplementation 'org.assertj:assertj-core:3.27.7'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.14.3'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.11.0'
+    testImplementation 'org.slf4j:slf4j-reload4j:2.0.17'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+    }
+}
+
+dependencyCheck {
+    nvd.setApiKey(project.findProperty('nvdApiKey'))
+    analyzers.ossIndex.setUsername(project.findProperty('ossindexUsername'))
+    analyzers.ossIndex.setPassword(project.findProperty('ossindexPassword'))
+    failBuildOnCVSS = 5
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'config-builder'
+            from components.java
+            pom {
+                name = 'Config-Builder'
+                description = project.description
+                url = 'https://github.com/TNG/config-builder'
+
+                organization {
+                    name = 'TNG Technology Consulting'
+                    url = 'https://www.tngtech.com/'
+                }
+
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        name = 'Thomas Endres'
+                        email = 'thomas.endres@tngtech.com'
+                        organization = 'TNG Technology Consulting'
+                    }
+                    developer {
+                        name = 'Manfred Hanke'
+                        email = 'manfred.hanke@tngtech.com'
+                        organization = 'TNG Technology Consulting'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/TNG/config-builder'
+                    connection = 'scm:git:git://github.com/TNG/config-builder.git'
+                    developerConnection = 'scm:git:git://github.com/TNG/config-builder.git'
+                }
+            }
+        }
+    }
+}
