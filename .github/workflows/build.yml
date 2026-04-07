@@ -32,6 +32,7 @@ jobs:
         with:
           files: target/site/jacoco/jacoco.xml
           name: codecov
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   dependency-check:
       needs: test
