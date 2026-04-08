@@ -29,7 +29,7 @@ dependencies {
     implementation 'com.google.guava:guava:33.5.0-jre'
     implementation 'org.hibernate.validator:hibernate-validator:6.2.5.Final'
     implementation 'org.glassfish:jakarta.el:3.0.4'
-    implementation 'com.tngtech.java:property-loader:1.5.1'
+    implementation 'com.tngtech.java:property-loader:1.5.2'
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.slf4j:slf4j-api:2.0.17'
 
