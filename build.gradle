@@ -3,6 +3,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'org.owasp.dependencycheck' version '12.2.0'
+    id 'io.github.gradle-nexus.publish-plugin' version '2.0.0' apply false
 }
 
 group = 'com.tngtech.java'
@@ -99,6 +100,24 @@ publishing {
                     connection = 'scm:git:git://github.com/TNG/config-builder.git'
                     developerConnection = 'scm:git:git://github.com/TNG/config-builder.git'
                 }
+            }
+        }
+    }
+}
+
+if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')) {
+    plugins.apply('signing')
+    plugins.apply('io.github.gradle-nexus.publish-plugin')
+    signing {
+        sign publishing.publications.mavenJava
+        useInMemoryPgpKeys(findProperty('signingKey'), findProperty('signingPassword'))
+    }
+    nexusPublishing {
+        repositories {
+            sonatype {
+                nexusUrl.set(uri('https://ossrh-staging-api.central.sonatype.com/service/local/'))
+                username = findProperty('sonatypeUsername')
+                password = findProperty('sonatypePassword')
             }
         }
     }
