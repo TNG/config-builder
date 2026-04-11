@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'maven-publish'
-    id 'org.owasp.dependencycheck' version '12.2.0'
+    id 'org.owasp.dependencycheck' version '12.2.1'
     id 'io.github.gradle-nexus.publish-plugin' version '2.0.0' apply false
 }
 
