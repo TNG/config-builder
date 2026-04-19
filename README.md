@@ -1,7 +1,7 @@
 Java Config-Builder
  [![Build Status](https://github.com/TNG/config-builder/actions/workflows/build.yml/badge.svg)](https://github.com/TNG/config-builder/actions/workflows/build.yml?query=branch%3Amaster)
  [![Coverage Status](https://codecov.io/gh/TNG/config-builder/branch/master/graphs/badge.svg)](https://app.codecov.io/gh/TNG/config-builder)
- [![Apache License 2.0](https://img.shields.io/badge/license-apache2-red.svg)](http://opensource.org/licenses/Apache-2.0)
+ [![Apache License 2.0](https://img.shields.io/badge/license-apache2-red.svg)](https://opensource.org/licenses/Apache-2.0)
  [![Maven Central](https://img.shields.io/maven-central/v/com.tngtech.java/config-builder.svg)](https://central.sonatype.com/artifact/com.tngtech.java/config-builder)
  [![Javadocs](https://javadoc.io/badge/com.tngtech.java/config-builder.svg?color=brightgreen)](https://javadoc.io/doc/com.tngtech.java/config-builder)
 ===================
@@ -205,11 +205,11 @@ Config myConfig = ConfigBuilder.on(Config.class).withCommandLineArgs(args).build
 
 Presentation
 ------------
-A sample presentation can be found at http://tng.github.io/config-builder
+A sample presentation can be found at https://tng.github.io/config-builder
 
 Java Doc
 --------
-Full javadoc of the code can be found here http://tng.github.io/config-builder/javadoc
+Full javadoc of the code can be found here https://tng.github.io/config-builder/javadoc
 
 How to contribute
 -----------------
