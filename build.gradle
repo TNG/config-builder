@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     implementation 'commons-cli:commons-cli:1.11.0'
-    implementation 'com.google.guava:guava:33.5.0-jre'
+    implementation 'com.google.guava:guava:33.6.0-jre'
     implementation 'org.hibernate.validator:hibernate-validator:6.2.5.Final'
     implementation 'org.glassfish:jakarta.el:3.0.4'
     implementation 'com.tngtech.java:property-loader:1.5.2'
